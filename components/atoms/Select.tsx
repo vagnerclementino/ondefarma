@@ -1,0 +1,39 @@
+import React from 'react';
+import MuiSelect, { SelectProps as MuiSelectProps } from '@mui/material/Select';
+
+export type SelectProps = MuiSelectProps & {
+  // Extend with custom props if needed
+};
+
+/**
+ * Select atom - wrapper do MUI Select
+ * Componente básico de seleção seguindo Material Design
+ * Otimizado para mobile com native select em telas pequenas
+ */
+const Select: React.FC<SelectProps> = (props) => {
+  return (
+    <MuiSelect 
+      {...props}
+      // Use native select on mobile for better UX
+      native={false} // Keep MUI select for consistency, but with mobile optimizations
+      MenuProps={{
+        ...props.MenuProps,
+        PaperProps: {
+          ...props.MenuProps?.PaperProps,
+          sx: {
+            maxHeight: { xs: '60vh', sm: '400px' }, // Limit height on mobile
+            ...props.MenuProps?.PaperProps?.sx,
+          },
+        },
+      }}
+      sx={{
+        '& .MuiSelect-select': {
+          minHeight: { xs: '40px', sm: '44px' }, // Better touch target
+        },
+        ...props.sx,
+      }}
+    />
+  );
+};
+
+export default Select;

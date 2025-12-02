@@ -1,10 +1,8 @@
 export interface Pharmacy {
-  state: string;
-  cod: string;
-  city: string;
-  CNPJ: string;
+  cnpj: string;
   name: string;
   address: string;
   neighborhood: string;
-  credential_date: string;
+  city?: string;
+  state?: string;
 }
