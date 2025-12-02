@@ -12,7 +12,6 @@ import { PharmacyList } from '../components/organisms';
 import { useFavorites } from '../hooks/useFavorites';
 import { usePharmacies, useStates, useCities, useNeighborhoods } from '../hooks/usePharmacies';
 
-// Dynamic import for ScrollToTop (not needed on initial render)
 const ScrollToTop = dynamic(() => import('../components/atoms/ScrollToTop'), {
   ssr: false,
 });
@@ -102,14 +101,13 @@ export default function Home({
         maxWidth="lg" 
         sx={{ 
           flex: 1,
-          px: { xs: 2, sm: 3, md: 4 }, // Responsive horizontal padding
+          px: { xs: 2, sm: 3, md: 4 },
         }}
       >
         <Fade in timeout={500}>
           <Box sx={{ 
-            py: { xs: 2, sm: 3, md: 4 }, // Responsive vertical padding
+            py: { xs: 2, sm: 3, md: 4 },
           }}>
-            {/* Error alerts */}
             {error && (
               <Fade in>
                 <Alert 
@@ -129,7 +127,6 @@ export default function Home({
               </Fade>
             )}
 
-            {/* Filter panel */}
             <FilterPanel
               selectedState={selectedState}
               states={states}
