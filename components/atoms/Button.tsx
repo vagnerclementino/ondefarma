@@ -15,11 +15,11 @@ const Button: React.FC<ButtonProps> = (props) => {
     <MuiButton 
       {...props}
       sx={{
-        minHeight: { xs: '40px', sm: '44px' }, // Minimum touch target (WCAG)
-        px: { xs: 2, sm: 2.5 }, // Responsive padding
-        fontSize: { xs: '0.875rem', sm: '0.9375rem' }, // Responsive font
+        minHeight: { xs: '40px', sm: '44px' },
+        px: { xs: 2, sm: 2.5 },
+        fontSize: { xs: '0.875rem', sm: '0.9375rem' },
         '&:active': {
-          transform: 'scale(0.98)', // Touch feedback
+          transform: 'scale(0.98)',
         },
         transition: 'transform 0.1s ease-in-out, background-color 0.2s',
         ...props.sx,

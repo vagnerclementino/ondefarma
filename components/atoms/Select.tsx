@@ -15,20 +15,20 @@ const Select: React.FC<SelectProps> = (props) => {
     <MuiSelect 
       {...props}
       // Use native select on mobile for better UX
-      native={false} // Keep MUI select for consistency, but with mobile optimizations
+      native={false}
       MenuProps={{
         ...props.MenuProps,
         PaperProps: {
           ...props.MenuProps?.PaperProps,
           sx: {
-            maxHeight: { xs: '60vh', sm: '400px' }, // Limit height on mobile
+            maxHeight: { xs: '60vh', sm: '400px' },
             ...props.MenuProps?.PaperProps?.sx,
           },
         },
       }}
       sx={{
         '& .MuiSelect-select': {
-          minHeight: { xs: '40px', sm: '44px' }, // Better touch target
+          minHeight: { xs: '40px', sm: '44px' },
         },
         ...props.sx,
       }}

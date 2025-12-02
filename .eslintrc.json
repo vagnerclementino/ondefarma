@@ -1,3 +1,31 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "no-inline-comments": "error",
+    "no-warning-comments": [
+      "error",
+      {
+        "terms": ["todo", "fixme", "hack", "xxx", "note", "review"],
+        "location": "anywhere"
+      }
+    ],
+    "spaced-comment": [
+      "error",
+      "always",
+      {
+        "block": {
+          "balanced": true
+        }
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["*.test.ts", "*.test.tsx", "*.spec.ts", "*.spec.tsx"],
+      "rules": {
+        "no-inline-comments": "off",
+        "no-warning-comments": "off"
+      }
+    }
+  ]
 }

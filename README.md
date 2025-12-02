@@ -164,6 +164,44 @@ Execute os testes com:
 npm test
 ```
 
+## 📋 Qualidade de Código
+
+### Política de Sem Comentários
+
+Este projeto adota uma **política de código sem comentários inline**. O código deve ser auto-explicativo através de:
+- Nomes descritivos de variáveis e funções
+- Funções pequenas e focadas
+- Constantes nomeadas
+- Tipos TypeScript claros
+
+Veja [docs/NO_COMMENTS_POLICY.md](docs/NO_COMMENTS_POLICY.md) para detalhes.
+
+### ESLint
+
+O ESLint está configurado para:
+- ❌ Proibir comentários inline no código de produção
+- ❌ Proibir comentários TODO, FIXME, HACK
+- ✅ Permitir comentários apenas em testes
+- ✅ Permitir JSDoc para documentação de APIs
+
+```bash
+npm run lint              # Verifica código
+npm run lint:fix          # Corrige problemas automaticamente
+npm run type-check        # Verifica tipos TypeScript
+npm run validate          # Executa lint + type-check + tests
+```
+
+### CI/CD Pipeline
+
+O projeto usa GitHub Actions para:
+- ✅ Lint automático em PRs
+- ✅ Testes automáticos
+- ✅ Build verification
+- ✅ Type checking
+- ✅ Deploy automático para produção
+
+Veja [.github/PIPELINE.md](.github/PIPELINE.md) para detalhes.
+
 ## 📝 Decisões Técnicas
 
 ### Por que Material-UI?

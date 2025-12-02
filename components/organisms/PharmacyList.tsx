@@ -12,7 +12,7 @@ import { Pharmacy } from '../../types/pharmacy';
 export interface PharmacyListProps {
   pharmacies: Pharmacy[];
   isLoading?: boolean;
-  favoritePharmacies?: string[]; // Array de CNPJs favoritos
+  favoritePharmacies?: string[];
   onFavoriteToggle?: (cnpj: string) => void;
 }
 
@@ -83,23 +83,23 @@ const PharmacyList: React.FC<PharmacyListProps> = ({
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          minHeight: { xs: '250px', sm: '300px' }, // Responsive height
+          minHeight: { xs: '250px', sm: '300px' },
           textAlign: 'center',
-          p: { xs: 2, sm: 3, md: 4 }, // Responsive padding
+          p: { xs: 2, sm: 3, md: 4 },
         }}
       >
         <Typography 
           variant="h5" 
           color="text.secondary" 
           gutterBottom
-          sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }} // Responsive font
+          sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }}
         >
           Nenhuma farmácia encontrada
         </Typography>
         <Typography 
           variant="body1" 
           color="text.secondary"
-          sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }} // Responsive font
+          sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}
         >
           Tente ajustar os filtros para encontrar farmácias na sua região.
         </Typography>
@@ -123,7 +123,7 @@ const PharmacyList: React.FC<PharmacyListProps> = ({
       {pharmacies.map((pharmacy, index) => (
         <Grow 
           in 
-          timeout={300 + (index % 12) * 50} // Stagger animation for first 12 items
+          timeout={300 + (index % 12) * 50}
           style={{ transformOrigin: '0 0 0' }}
           key={pharmacy.cnpj}
         >

@@ -31,10 +31,10 @@ export function usePharmacies(
     `/api/pharmacies?${params.toString()}`,
     fetcher,
     {
-      revalidateOnFocus: false, // Don't revalidate on window focus
-      revalidateOnReconnect: true, // Revalidate on reconnect
-      dedupingInterval: 5000, // Deduplicate requests within 5 seconds
-      refreshInterval: 0, // No automatic refresh (rely on cache headers)
+      revalidateOnFocus: false,
+      revalidateOnReconnect: true,
+      dedupingInterval: 5000,
+      refreshInterval: 0,
     }
   );
 
@@ -43,7 +43,7 @@ export function usePharmacies(
     pagination: data?.pagination,
     isLoading,
     error: error ? 'Erro ao carregar farmácias' : null,
-    mutate, // Expose mutate for manual revalidation
+    mutate,
   };
 }
 
@@ -54,8 +54,8 @@ export function useStates() {
     fetcher,
     {
       revalidateOnFocus: false,
-      revalidateOnReconnect: false, // States rarely change
-      dedupingInterval: 60000, // 1 minute deduplication
+      revalidateOnReconnect: false,
+      dedupingInterval: 60000,
     }
   );
 
@@ -73,8 +73,8 @@ export function useCities(state?: string) {
     fetcher,
     {
       revalidateOnFocus: false,
-      revalidateOnReconnect: false, // Cities rarely change
-      dedupingInterval: 60000, // 1 minute deduplication
+      revalidateOnReconnect: false,
+      dedupingInterval: 60000,
     }
   );
 
@@ -92,8 +92,8 @@ export function useNeighborhoods(city?: string, state?: string) {
     fetcher,
     {
       revalidateOnFocus: false,
-      revalidateOnReconnect: false, // Neighborhoods rarely change
-      dedupingInterval: 60000, // 1 minute deduplication
+      revalidateOnReconnect: false,
+      dedupingInterval: 60000,
     }
   );
 

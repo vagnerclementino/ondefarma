@@ -22,7 +22,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   
   // Validate pagination parameters
   const page = pageParam > 0 ? pageParam : 1;
-  const limit = Math.min(limitParam > 0 ? limitParam : 50, 50); // Max 50 items per page
+  const limit = Math.min(limitParam > 0 ? limitParam : 50, 50);
 
   try {
     fs.createReadStream(filePath)

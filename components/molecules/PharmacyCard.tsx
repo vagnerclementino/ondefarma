@@ -49,7 +49,7 @@ const PharmacyCard: React.FC<PharmacyCardProps> = ({
     >
       <CardContent sx={{ 
         flexGrow: 1,
-        p: { xs: 1.5, sm: 2 }, // Responsive padding
+        p: { xs: 1.5, sm: 2 },
       }}>
         <Typography 
           variant="h6" 
@@ -57,7 +57,7 @@ const PharmacyCard: React.FC<PharmacyCardProps> = ({
           gutterBottom 
           color="primary"
           sx={{ 
-            fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' }, // Responsive font size
+            fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' },
             lineHeight: 1.3,
           }}
         >
@@ -69,7 +69,7 @@ const PharmacyCard: React.FC<PharmacyCardProps> = ({
             variant="body2" 
             color="text.secondary" 
             gutterBottom
-            sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }} // Responsive font
+            sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
           >
             <strong>Endereço:</strong> {pharmacy.address}
           </Typography>
@@ -108,7 +108,7 @@ const PharmacyCard: React.FC<PharmacyCardProps> = ({
 
       <CardActions sx={{ 
         justifyContent: 'flex-end', 
-        px: { xs: 1.5, sm: 2 }, // Responsive padding
+        px: { xs: 1.5, sm: 2 },
         pb: { xs: 1.5, sm: 2 },
       }}>
         <IconButton
@@ -117,13 +117,13 @@ const PharmacyCard: React.FC<PharmacyCardProps> = ({
           color={isFavorite ? 'secondary' : 'default'}
           size="medium"
           sx={{
-            minWidth: { xs: '44px', sm: '48px' }, // Minimum touch target size (WCAG)
+            minWidth: { xs: '44px', sm: '48px' },
             minHeight: { xs: '44px', sm: '48px' },
             '& .MuiSvgIcon-root': {
-              fontSize: { xs: '1.25rem', sm: '1.5rem' }, // Responsive icon size
+              fontSize: { xs: '1.25rem', sm: '1.5rem' },
             },
             '&:active': {
-              transform: 'scale(0.95)', // Touch feedback
+              transform: 'scale(0.95)',
             },
             transition: 'transform 0.1s ease-in-out',
           }}

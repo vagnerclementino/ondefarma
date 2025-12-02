@@ -72,12 +72,12 @@ export default function Favorites() {
         maxWidth="lg" 
         sx={{ 
           flex: 1,
-          px: { xs: 2, sm: 3, md: 4 }, // Responsive horizontal padding
+          px: { xs: 2, sm: 3, md: 4 },
         }}
       >
         <Fade in timeout={500}>
           <Box sx={{ 
-            py: { xs: 2, sm: 3, md: 4 }, // Responsive vertical padding
+            py: { xs: 2, sm: 3, md: 4 },
           }}>
             {/* Page title */}
             <Typography 
@@ -86,7 +86,7 @@ export default function Favorites() {
               gutterBottom 
               sx={{ 
                 mb: { xs: 2, sm: 3 },
-                fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }, // Responsive font size
+                fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' },
               }}
             >
               Minhas Farmácias Favoritas
@@ -121,16 +121,16 @@ export default function Favorites() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    minHeight: { xs: '300px', sm: '400px' }, // Responsive height
+                    minHeight: { xs: '300px', sm: '400px' },
                     textAlign: 'center',
-                    p: { xs: 2, sm: 3, md: 4 }, // Responsive padding
+                    p: { xs: 2, sm: 3, md: 4 },
                   }}
                 >
                   <Typography 
                     variant="h5" 
                     color="text.secondary" 
                     gutterBottom
-                    sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }} // Responsive font
+                    sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }}
                   >
                     Você ainda não tem farmácias favoritas
                   </Typography>
@@ -139,7 +139,7 @@ export default function Favorites() {
                     color="text.secondary" 
                     sx={{ 
                       mb: { xs: 2, sm: 3 },
-                      fontSize: { xs: '0.875rem', sm: '1rem' }, // Responsive font
+                      fontSize: { xs: '0.875rem', sm: '1rem' },
                     }}
                   >
                     Adicione farmácias aos favoritos para acessá-las rapidamente aqui.
@@ -149,7 +149,7 @@ export default function Favorites() {
                       variant="contained" 
                       color="primary" 
                       size="large"
-                      sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }} // Responsive button
+                      sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}
                     >
                       Buscar Farmácias
                     </Button>

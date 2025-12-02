@@ -46,8 +46,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   return (
     <Box
       sx={{
-        mb: { xs: 2, sm: 3 }, // Responsive margin
-        p: { xs: 1.5, sm: 2, md: 2.5 }, // Responsive padding
+        mb: { xs: 2, sm: 3 },
+        p: { xs: 1.5, sm: 2, md: 2.5 },
         backgroundColor: 'background.paper',
         borderRadius: 1,
         boxShadow: 1,
