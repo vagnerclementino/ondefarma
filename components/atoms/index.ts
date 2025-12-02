@@ -3,6 +3,7 @@ export { default as TextField } from './TextField';
 export { default as Select } from './Select';
 export { default as IconButton } from './IconButton';
 export { default as ScrollToTop } from './ScrollToTop';
+export { default as MarkdownContent } from './MarkdownContent';
 
 export type { ButtonProps } from './Button';
 export type { TextFieldProps } from './TextField';

@@ -107,6 +107,11 @@ const Footer: React.FC<FooterProps> = ({
               gap: 0.5,
             }}
           >
+            <NextLink href="/sobre" passHref legacyBehavior>
+              <Link color="text.secondary" underline="hover" variant="body2">
+                Sobre
+              </Link>
+            </NextLink>
             <NextLink href="/termos-de-uso" passHref legacyBehavior>
               <Link color="text.secondary" underline="hover" variant="body2">
                 Termos de Uso
