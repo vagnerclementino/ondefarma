@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,82 +8,51 @@ import Snackbar from '@mui/material/Snackbar';
 import Fade from '@mui/material/Fade';
 import Grow from '@mui/material/Grow';
 import Link from 'next/link';
+import useSWR from 'swr';
 import { Pharmacy } from '../types/pharmacy';
 import { Header, Footer } from '../components/organisms';
 import { PharmacyList } from '../components/organisms';
-import { Button, ScrollToTop } from '../components/atoms';
+import { Button } from '../components/atoms';
 import { useFavorites } from '../hooks/useFavorites';
 
+// Dynamic import for ScrollToTop (not needed on initial render)
+const ScrollToTop = dynamic(() => import('../components/atoms/ScrollToTop'), {
+  ssr: false,
+});
+
+// Fetcher function for SWR
+const fetcher = async (url: string) => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error('Erro ao carregar dados');
+  }
+  return response.json();
+};
+
 export default function Favorites() {
-  const [pharmacies, setPharmacies] = useState<Pharmacy[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   
   const { favorites, toggleFavorite, error: favoritesError } = useFavorites();
-
-  // Fetch pharmacy data for all favorite CNPJs
-  useEffect(() => {
-    const fetchFavoritePharmacies = async () => {
-      if (favorites.length === 0) {
-        setPharmacies([]);
-        setIsLoading(false);
-        return;
-      }
-
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        // Fetch all pharmacies - we'll fetch all pages to ensure we get all favorites
-        const allPharmacies: Pharmacy[] = [];
-        let currentPage = 1;
-        let hasMorePages = true;
-        
-        while (hasMorePages) {
-          const response = await fetch(`/api/pharmacies?limit=50&page=${currentPage}`);
-          
-          if (!response.ok) {
-            throw new Error('Erro ao carregar farmácias favoritas');
-          }
-          
-          const responseData = await response.json();
-          const pagePharmacies = responseData.data || [];
-          
-          allPharmacies.push(...pagePharmacies);
-          
-          // Check if there are more pages
-          hasMorePages = responseData.pagination?.hasNextPage || false;
-          currentPage++;
-          
-          // Safety check to prevent infinite loops
-          if (currentPage > 100) {
-            break;
-          }
-        }
-        
-        // Filter pharmacies by favorite CNPJs
-        // Normalize CNPJs by trimming whitespace for comparison
-        const normalizedFavorites = favorites.map(cnpj => cnpj.trim());
-        
-        const favoritePharmacies = allPharmacies.filter((pharmacy: Pharmacy) => {
-          const normalizedCnpj = pharmacy.cnpj?.trim();
-          return normalizedCnpj && normalizedFavorites.includes(normalizedCnpj);
-        });
-        
-        setPharmacies(favoritePharmacies);
-      } catch (err) {
-        console.error('Error fetching favorite pharmacies:', err);
-        setError('Erro ao carregar farmácias favoritas. Por favor, tente novamente.');
-        setPharmacies([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchFavoritePharmacies();
-  }, [favorites]);
+  
+  // Use SWR to fetch all pharmacies with caching
+  const { data: allPharmaciesData, error: fetchError, isLoading } = useSWR(
+    '/api/pharmacies?limit=50',
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 5000,
+    }
+  );
+  
+  // Filter pharmacies by favorites
+  const pharmacies = (allPharmaciesData?.data || []).filter((pharmacy: Pharmacy) => {
+    const normalizedCnpj = pharmacy.cnpj?.trim();
+    const normalizedFavorites = favorites.map(cnpj => cnpj.trim());
+    return normalizedCnpj && normalizedFavorites.includes(normalizedCnpj);
+  });
+  
+  const error = fetchError ? 'Erro ao carregar farmácias favoritas. Por favor, tente novamente.' : null;
 
   // Handle favorite toggle with feedback
   const handleFavoriteToggle = (cnpj: string) => {
@@ -127,8 +97,7 @@ export default function Favorites() {
               <Fade in>
                 <Alert 
                   severity="error" 
-                  sx={{ mb: { xs: 2, sm: 3 } }} 
-                  onClose={() => setError(null)}
+                  sx={{ mb: { xs: 2, sm: 3 } }}
                 >
                   {error}
                 </Alert>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
+import dynamic from 'next/dynamic';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
@@ -8,8 +9,13 @@ import { Pharmacy } from '../types/pharmacy';
 import { Header, Footer } from '../components/organisms';
 import { FilterPanel } from '../components/molecules';
 import { PharmacyList } from '../components/organisms';
-import { ScrollToTop } from '../components/atoms';
 import { useFavorites } from '../hooks/useFavorites';
+import { usePharmacies, useStates, useCities, useNeighborhoods } from '../hooks/usePharmacies';
+
+// Dynamic import for ScrollToTop (not needed on initial render)
+const ScrollToTop = dynamic(() => import('../components/atoms/ScrollToTop'), {
+  ssr: false,
+});
 
 interface HomeProps {
   initialPharmacies: Pharmacy[];
@@ -31,130 +37,49 @@ export default function Home({
   const [selectedCity, setSelectedCity] = useState<string>('BELO HORIZONTE');
   const [selectedNeighborhood, setSelectedNeighborhood] = useState<string>('');
   
-  // Data states
-  const [pharmacies, setPharmacies] = useState<Pharmacy[]>(initialPharmacies);
-  const [states, setStates] = useState<string[]>(initialStates);
-  const [cities, setCities] = useState<string[]>(initialCities);
-  const [neighborhoods, setNeighborhoods] = useState<string[]>(initialNeighborhoods);
-  
-  // Loading states
-  const [isLoadingPharmacies, setIsLoadingPharmacies] = useState(false);
-  const [isLoadingCities, setIsLoadingCities] = useState(false);
-  const [isLoadingNeighborhoods, setIsLoadingNeighborhoods] = useState(false);
-  
-  // Error state
-  const [error, setError] = useState<string | null>(initialError || null);
-  
   // Favorites hook
   const { favorites, toggleFavorite, error: favoritesError } = useFavorites();
-
-  // Fetch pharmacies when filters change
+  
+  // SWR hooks for data fetching with automatic caching
+  const { 
+    pharmacies, 
+    isLoading: isLoadingPharmacies, 
+    error: pharmaciesError 
+  } = usePharmacies(selectedState, selectedCity, selectedNeighborhood);
+  
+  const { 
+    states, 
+    isLoading: isLoadingStates 
+  } = useStates();
+  
+  const { 
+    cities, 
+    isLoading: isLoadingCities 
+  } = useCities(selectedState);
+  
+  const { 
+    neighborhoods, 
+    isLoading: isLoadingNeighborhoods 
+  } = useNeighborhoods(selectedCity, selectedState);
+  
+  // Combined error state
+  const error = initialError || pharmaciesError;
+  
+  // Reset city when state changes and current city is not in new list
   useEffect(() => {
-    const fetchPharmacies = async () => {
-      setIsLoadingPharmacies(true);
-      setError(null);
-      
-      try {
-        const params = new URLSearchParams();
-        if (selectedState) params.append('state', selectedState);
-        if (selectedCity) params.append('city', selectedCity);
-        if (selectedNeighborhood) params.append('neighborhood', selectedNeighborhood);
-        
-        const response = await fetch(`/api/pharmacies?${params.toString()}`);
-        
-        if (!response.ok) {
-          throw new Error('Erro ao carregar farmácias');
-        }
-        
-        const data = await response.json();
-        setPharmacies(data.data || []);
-      } catch (err) {
-        console.error('Error fetching pharmacies:', err);
-        setError('Erro ao carregar farmácias. Por favor, tente novamente.');
-        setPharmacies([]);
-      } finally {
-        setIsLoadingPharmacies(false);
-      }
-    };
-
-    fetchPharmacies();
-  }, [selectedState, selectedCity, selectedNeighborhood]);
-
-  // Fetch cities when state changes
-  useEffect(() => {
-    if (!selectedState) {
-      setCities([]);
+    if (selectedCity && cities.length > 0 && !cities.includes(selectedCity)) {
       setSelectedCity('');
-      return;
     }
-
-    const fetchCities = async () => {
-      setIsLoadingCities(true);
-      
-      try {
-        const response = await fetch(`/api/pharmacies/cities?state=${selectedState}`);
-        
-        if (!response.ok) {
-          throw new Error('Erro ao carregar cidades');
-        }
-        
-        const data = await response.json();
-        setCities(data);
-        
-        // Reset city selection if current city is not in the new list
-        if (selectedCity && !data.includes(selectedCity)) {
-          setSelectedCity('');
-        }
-      } catch (err) {
-        console.error('Error fetching cities:', err);
-        setCities([]);
-      } finally {
-        setIsLoadingCities(false);
-      }
-    };
-
-    fetchCities();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedState]);
-
-  // Fetch neighborhoods when city changes
+  }, [cities]);
+  
+  // Reset neighborhood when city changes and current neighborhood is not in new list
   useEffect(() => {
-    if (!selectedCity || !selectedState) {
-      setNeighborhoods([]);
+    if (selectedNeighborhood && neighborhoods.length > 0 && !neighborhoods.includes(selectedNeighborhood)) {
       setSelectedNeighborhood('');
-      return;
     }
-
-    const fetchNeighborhoods = async () => {
-      setIsLoadingNeighborhoods(true);
-      
-      try {
-        const response = await fetch(
-          `/api/pharmacies/neighborhoods?state=${selectedState}&city=${selectedCity}`
-        );
-        
-        if (!response.ok) {
-          throw new Error('Erro ao carregar bairros');
-        }
-        
-        const data = await response.json();
-        setNeighborhoods(data);
-        
-        // Reset neighborhood selection if current neighborhood is not in the new list
-        if (selectedNeighborhood && !data.includes(selectedNeighborhood)) {
-          setSelectedNeighborhood('');
-        }
-      } catch (err) {
-        console.error('Error fetching neighborhoods:', err);
-        setNeighborhoods([]);
-      } finally {
-        setIsLoadingNeighborhoods(false);
-      }
-    };
-
-    fetchNeighborhoods();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCity, selectedState]);
+  }, [neighborhoods]);
 
   // Update URL with query params
   useEffect(() => {
@@ -189,8 +114,7 @@ export default function Home({
               <Fade in>
                 <Alert 
                   severity="error" 
-                  sx={{ mb: { xs: 2, sm: 3 } }} 
-                  onClose={() => setError(null)}
+                  sx={{ mb: { xs: 2, sm: 3 } }}
                 >
                   {error}
                 </Alert>
