@@ -54,7 +54,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           matches = false;
         }
         
-        if (neighborhoodParam && data.neighborhood.toUpperCase() !== neighborhoodParam.toUpperCase()) {
+        if (neighborhoodParam && data.neighborhood?.toUpperCase() !== neighborhoodParam.toUpperCase()) {
+           matches = false;
+         }
           matches = false;
         }
 
