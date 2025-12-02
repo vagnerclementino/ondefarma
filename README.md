@@ -200,7 +200,7 @@ O projeto usa GitHub Actions para:
 - ✅ Type checking
 - ✅ Deploy automático para produção
 
-Veja [.github/PIPELINE.md](.github/PIPELINE.md) para detalhes.
+Os workflows estão em `.github/workflows/`.
 
 ## 📝 Decisões Técnicas
 
