@@ -44,7 +44,6 @@ const Footer: React.FC<FooterProps> = ({
             gap: 2,
           }}
         >
-          {/* Coluna esquerda - Copyright e autor */}
           <Box sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
             <Typography variant="body2" color="text.secondary" gutterBottom>
               © {currentYear} Ache uma Farmácia Popular
@@ -88,7 +87,6 @@ const Footer: React.FC<FooterProps> = ({
             </Typography>
           </Box>
 
-          {/* Coluna central - Build info */}
           <Box sx={{ textAlign: 'center' }}>
             <Typography variant="caption" color="text.secondary" display="block">
               v{version}
@@ -98,7 +96,6 @@ const Footer: React.FC<FooterProps> = ({
             </Typography>
           </Box>
 
-          {/* Coluna direita - Links */}
           <Box
             sx={{
               display: 'flex',

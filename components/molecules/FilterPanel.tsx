@@ -64,7 +64,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           gap: { xs: 1.5, sm: 2 },
         }}
       >
-        {/* Filtro de Estado */}
         <FormControl fullWidth size="small">
           <InputLabel id="state-select-label">Estado</InputLabel>
           <Select
@@ -85,7 +84,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           </Select>
         </FormControl>
 
-        {/* Filtro de Cidade */}
         <FormControl 
           fullWidth 
           size="small" 
@@ -114,7 +112,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           </Select>
         </FormControl>
 
-        {/* Filtro de Bairro */}
         <FormControl 
           fullWidth 
           size="small" 

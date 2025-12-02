@@ -51,7 +51,6 @@ const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' })
             py: 1,
           }}
         >
-          {/* Logo e Título */}
           <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit' }}>
             <Box
               sx={{
@@ -97,7 +96,6 @@ const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' })
             </Box>
           </Link>
 
-          {/* Navegação */}
           <Box sx={{ display: 'flex', gap: { xs: 0.5, sm: 1 } }}>
             <Link href="/" passHref style={{ textDecoration: 'none' }}>
               <Button

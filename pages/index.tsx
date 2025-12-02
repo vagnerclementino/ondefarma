@@ -141,7 +141,6 @@ export default function Home({
               loadingNeighborhoods={isLoadingNeighborhoods}
             />
 
-            {/* Pharmacy list */}
             <PharmacyList
               pharmacies={pharmacies}
               isLoading={isLoadingPharmacies}

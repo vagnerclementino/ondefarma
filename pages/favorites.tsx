@@ -79,7 +79,6 @@ export default function Favorites() {
           <Box sx={{ 
             py: { xs: 2, sm: 3, md: 4 },
           }}>
-            {/* Page title */}
             <Typography 
               variant="h4" 
               component="h1" 
@@ -92,7 +91,6 @@ export default function Favorites() {
               Minhas Farmácias Favoritas
             </Typography>
 
-            {/* Error alert */}
             {error && (
               <Fade in>
                 <Alert 
@@ -112,7 +110,6 @@ export default function Favorites() {
               </Fade>
             )}
 
-            {/* Empty state */}
             {!isLoading && pharmacies.length === 0 && (
               <Grow in timeout={600}>
                 <Box
@@ -158,7 +155,6 @@ export default function Favorites() {
               </Grow>
             )}
 
-            {/* Pharmacy list */}
             {(isLoading || pharmacies.length > 0) && (
               <PharmacyList
                 pharmacies={pharmacies}
@@ -171,7 +167,6 @@ export default function Favorites() {
         </Fade>
       </Container>
 
-      {/* Snackbar for feedback */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}
