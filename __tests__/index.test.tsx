@@ -23,7 +23,7 @@ const mockProps = {
 };
 
 describe('Home', () => {
-  it('renders a heading', () => {
+  it('renders the application header', () => {
     render(<Home {...mockProps} />);
     const heading = screen.getByRole('heading', {
       name: /Ache uma Farmácia Popular/i,
@@ -31,19 +31,18 @@ describe('Home', () => {
     expect(heading).toBeInTheDocument();
   });
   
-  it('renders filter panel with all filter options', () => {
+  it('renders responsive filter panel with all filter options', () => {
     render(<Home {...mockProps} />);
-    // Check for filter labels
+    // Check for filter labels - these are part of the responsive design
     expect(screen.getByLabelText(/Estado/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Cidade/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Bairro/i)).toBeInTheDocument();
   });
   
-  it("renders initial pharmacy data", () => {
+  it("renders the favorites button in header", () => {
     render(<Home {...mockProps} />);
-
-    // Check that the component renders with initial data
-    // The component shows pharmacy cards with the initial data
-    expect(screen.getByText("FARMACIA QUEIROZ CANEDO LTDA")).toBeInTheDocument();
+    // Check that the responsive header includes the favorites button
+    const favoritesButton = screen.getByRole('button', { name: /favoritos/i });
+    expect(favoritesButton).toBeInTheDocument();
   });
 });
