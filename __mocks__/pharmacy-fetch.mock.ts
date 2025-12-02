@@ -1,5 +1,7 @@
 global.fetch = jest.fn(() =>
   Promise.resolve({
+    ok: true,
+    status: 200,
     json: () => Promise.resolve({
       data: [
         {
@@ -20,5 +22,5 @@ global.fetch = jest.fn(() =>
         hasPrevPage: false,
       },
     }),
-  })
+  } as Response)
 ) as jest.Mock;
