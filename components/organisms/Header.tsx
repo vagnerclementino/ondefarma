@@ -6,8 +6,10 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocalPharmacyIcon from '@mui/icons-material/LocalPharmacy';
+import HomeIcon from '@mui/icons-material/Home';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Button } from '../atoms';
 
 export interface HeaderProps {
@@ -20,11 +22,16 @@ export interface HeaderProps {
  * Fica fixo no topo ao fazer scroll
  */
 const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' }) => {
+  const router = useRouter();
+  
   // Detecta quando o usuário faz scroll para adicionar sombra
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
   });
+  
+  // Verifica se a página está ativa
+  const isActive = (pathname: string) => router?.pathname === pathname;
 
   return (
     <AppBar
@@ -92,24 +99,51 @@ const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' })
 
           {/* Navegação */}
           <Box sx={{ display: 'flex', gap: { xs: 0.5, sm: 1 } }}>
-            <Link href="/favorites" passHref style={{ textDecoration: 'none' }}>
+            <Link href="/" passHref style={{ textDecoration: 'none' }}>
               <Button
-                variant="outlined"
-                startIcon={<FavoriteIcon sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }} />}
+                variant={isActive('/') ? 'contained' : 'outlined'}
+                startIcon={<HomeIcon sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }} />}
                 sx={{
-                  color: 'white',
+                  color: isActive('/') ? 'primary.main' : 'white',
+                  backgroundColor: isActive('/') ? 'white' : 'transparent',
                   borderColor: 'white',
                   '&:hover': {
                     borderColor: 'white',
-                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    backgroundColor: isActive('/') ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.1)',
                   },
                   '&:active': {
-                    backgroundColor: 'rgba(255, 255, 255, 0.2)', // Better touch feedback
+                    backgroundColor: isActive('/') ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.2)',
                   },
                   fontSize: { xs: '0.75rem', sm: '0.875rem' },
                   px: { xs: 1, sm: 2 },
-                  py: { xs: 0.75, sm: 1 }, // Better touch target size
-                  minHeight: { xs: '36px', sm: '40px' }, // Minimum touch target
+                  py: { xs: 0.75, sm: 1 },
+                  minHeight: { xs: '36px', sm: '40px' },
+                }}
+              >
+                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                  Início
+                </Box>
+              </Button>
+            </Link>
+            <Link href="/favorites" passHref style={{ textDecoration: 'none' }}>
+              <Button
+                variant={isActive('/favorites') ? 'contained' : 'outlined'}
+                startIcon={<FavoriteIcon sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }} />}
+                sx={{
+                  color: isActive('/favorites') ? 'primary.main' : 'white',
+                  backgroundColor: isActive('/favorites') ? 'white' : 'transparent',
+                  borderColor: 'white',
+                  '&:hover': {
+                    borderColor: 'white',
+                    backgroundColor: isActive('/favorites') ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.1)',
+                  },
+                  '&:active': {
+                    backgroundColor: isActive('/favorites') ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.2)',
+                  },
+                  fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                  px: { xs: 1, sm: 2 },
+                  py: { xs: 0.75, sm: 1 },
+                  minHeight: { xs: '36px', sm: '40px' },
                 }}
               >
                 <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
