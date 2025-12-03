@@ -4,6 +4,7 @@ export { default as Select } from './Select';
 export { default as IconButton } from './IconButton';
 export { default as ScrollToTop } from './ScrollToTop';
 export { default as MarkdownContent } from './MarkdownContent';
+export { default as DataUpdateInfo } from './DataUpdateInfo';
 
 export type { ButtonProps } from './Button';
 export type { TextFieldProps } from './TextField';

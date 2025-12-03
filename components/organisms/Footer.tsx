@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NextLink from 'next/link';
+import { DataUpdateInfo } from '../atoms';
 
 export interface FooterProps {
   version?: string;
@@ -119,6 +120,8 @@ const Footer: React.FC<FooterProps> = ({
             </Typography>
           </Box>
         </Box>
+        
+        <DataUpdateInfo />
       </Container>
     </Box>
   );
