@@ -161,37 +161,31 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
     // Get query params from URL
     const { state = 'MG', city = 'BELO HORIZONTE', neighborhood = '' } = context.query;
     
-    // Fetch initial data
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    // Import data functions dynamically to avoid bundling in client
+    const { readPharmaciesFromCSV, getStates, getCities, getNeighborhoods } = await import('../lib/pharmacyData');
     
-    // Fetch pharmacies
-    const pharmaciesParams = new URLSearchParams();
-    if (state) pharmaciesParams.append('state', state as string);
-    if (city) pharmaciesParams.append('city', city as string);
-    if (neighborhood) pharmaciesParams.append('neighborhood', neighborhood as string);
-    
-    const [pharmaciesRes, statesRes, citiesRes, neighborhoodsRes] = await Promise.all([
-      fetch(`${baseUrl}/api/pharmacies?${pharmaciesParams.toString()}`),
-      fetch(`${baseUrl}/api/pharmacies/states`),
-      fetch(`${baseUrl}/api/pharmacies/cities?state=${state}`),
-      city ? fetch(`${baseUrl}/api/pharmacies/neighborhoods?state=${state}&city=${city}`) : Promise.resolve(null),
+    // Fetch initial data directly from CSV (no HTTP calls needed)
+    const [pharmacies, states, cities, neighborhoods] = await Promise.all([
+      readPharmaciesFromCSV({
+        state: state as string,
+        city: city as string,
+        neighborhood: neighborhood as string || undefined,
+      }),
+      getStates(),
+      getCities(state as string),
+      city ? getNeighborhoods(city as string, state as string) : Promise.resolve([]),
     ]);
 
-    if (!pharmaciesRes.ok || !statesRes.ok || !citiesRes.ok) {
-      throw new Error('Failed to fetch initial data');
-    }
-
-    const pharmaciesData = await pharmaciesRes.json();
-    const statesData = await statesRes.json();
-    const citiesData = await citiesRes.json();
-    const neighborhoodsData = neighborhoodsRes ? await neighborhoodsRes.json() : [];
+    // Apply pagination for initial load
+    const limit = 50;
+    const paginatedPharmacies = pharmacies.slice(0, limit);
 
     return {
       props: {
-        initialPharmacies: pharmaciesData.data || [],
-        initialStates: statesData || [],
-        initialCities: citiesData || [],
-        initialNeighborhoods: neighborhoodsData || [],
+        initialPharmacies: paginatedPharmacies,
+        initialStates: states,
+        initialCities: cities,
+        initialNeighborhoods: neighborhoods,
       },
     };
   } catch (error) {

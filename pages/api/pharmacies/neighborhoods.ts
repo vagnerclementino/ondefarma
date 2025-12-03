@@ -1,9 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import csv from 'csv-parser';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getNeighborhoods } from '../../../lib/pharmacyData';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -18,41 +16,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.status(400).json({ error: 'State parameter is required' });
   }
 
-  const neighborhoods = new Set<string>();
-  const filePath = path.join(process.cwd(), 'data', 'pharmacies.csv');
-
   try {
-    fs.createReadStream(filePath)
-      .pipe(csv({
-        mapHeaders: ({ header }) => {
-          const headerMap: { [key: string]: string } = {
-            'CNPJ': 'cnpj',
-            'Farmácia': 'name',
-            'Endereço': 'address',
-            'Bairro': 'neighborhood'
-          };
-          return headerMap[header] || header.toLowerCase();
-        }
-      }))
-      .on('data', (data: any) => {
-        // All pharmacies are from Belo Horizonte, MG
-        if (state.toUpperCase() === 'MG' && city.toUpperCase() === 'BELO HORIZONTE') {
-          if (data.neighborhood) {
-            neighborhoods.add(data.neighborhood);
-          }
-        }
-      })
-      .on('end', () => {
-        // Set cache headers (24 hours)
-        res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400');
-        res.status(200).json(Array.from(neighborhoods).sort());
-      })
-      .on('error', (error) => {
-        console.error('Error reading CSV file:', error);
-        res.status(500).json({ error: 'Error reading CSV file' });
-      });
+    const neighborhoods = await getNeighborhoods(city, state);
+    
+    // Set cache headers (24 hours)
+    res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400');
+    res.status(200).json(neighborhoods);
   } catch (error) {
-    console.error('Internal server error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Error reading neighborhoods:', error);
+    res.status(500).json({ error: 'Error reading neighborhoods' });
   }
 }
