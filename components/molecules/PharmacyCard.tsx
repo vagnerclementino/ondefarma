@@ -32,6 +32,8 @@ const PharmacyCard: React.FC<PharmacyCardProps> = ({
 
   return (
     <Card
+      data-testid="pharmacy-card"
+      data-cnpj={pharmacy.cnpj}
       sx={{
         height: '100%',
         display: 'flex',

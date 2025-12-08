@@ -8,53 +8,68 @@ import Snackbar from '@mui/material/Snackbar';
 import Fade from '@mui/material/Fade';
 import Grow from '@mui/material/Grow';
 import Link from 'next/link';
-import useSWR from 'swr';
 import { Pharmacy } from '../types/pharmacy';
 import { Header, Footer } from '../components/organisms';
 import { PharmacyList } from '../components/organisms';
 import { Button } from '../components/atoms';
 import { useFavorites } from '../hooks/useFavorites';
 
-// Dynamic import for ScrollToTop (not needed on initial render)
 const ScrollToTop = dynamic(() => import('../components/atoms/ScrollToTop'), {
   ssr: false,
 });
 
-// Fetcher function for SWR
-const fetcher = async (url: string) => {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error('Erro ao carregar dados');
-  }
-  return response.json();
-};
-
 export default function Favorites() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [pharmacies, setPharmacies] = useState<Pharmacy[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   const { favorites, toggleFavorite, error: favoritesError } = useFavorites();
   
-  // Use SWR to fetch all pharmacies with caching
-  const { data: allPharmaciesData, error: fetchError, isLoading } = useSWR(
-    '/api/pharmacies?limit=50',
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      dedupingInterval: 5000,
-    }
-  );
-  
-  // Filter pharmacies by favorites
-  const pharmacies = (allPharmaciesData?.data || []).filter((pharmacy: Pharmacy) => {
-    const normalizedCnpj = pharmacy.cnpj?.trim();
-    const normalizedFavorites = favorites.map(cnpj => cnpj.trim());
-    return normalizedCnpj && normalizedFavorites.includes(normalizedCnpj);
-  });
-  
-  const error = fetchError ? 'Erro ao carregar farmácias favoritas. Por favor, tente novamente.' : null;
+  // Fetch pharmacies when favorites change
+  useEffect(() => {
+    const fetchFavoritePharmacies = async () => {
+      if (favorites.length === 0) {
+        setPharmacies([]);
+        setIsLoading(false);
+        return;
+      }
 
-  // Handle favorite toggle with feedback
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        // Busca farmácias específicas por CNPJ
+        const response = await fetch('/api/pharmacies/by-cnpj', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ cnpjs: favorites }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Erro ao carregar farmácias');
+        }
+        
+        const data = await response.json();
+        const favoritePharmacies = data.data || [];
+        
+        console.log('[Favorites] Fetched pharmacies:', favoritePharmacies.length);
+        
+        setPharmacies(favoritePharmacies);
+      } catch (err) {
+        console.error('Error fetching favorite pharmacies:', err);
+        setError('Erro ao carregar farmácias favoritas. Por favor, tente novamente.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFavoritePharmacies();
+  }, [favorites]);
+
   const handleFavoriteToggle = (cnpj: string) => {
     toggleFavorite(cnpj);
     setSnackbarMessage('Farmácia removida dos favoritos');
@@ -129,7 +144,7 @@ export default function Favorites() {
                     gutterBottom
                     sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }}
                   >
-                    Você ainda não tem farmácias favoritas
+                    Nenhuma farmácia favorita
                   </Typography>
                   <Typography 
                     variant="body1" 

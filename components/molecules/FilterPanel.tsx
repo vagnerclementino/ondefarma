@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import IconButton from '@mui/material/IconButton';
+import ClearIcon from '@mui/icons-material/Clear';
 import { Select } from '../atoms';
 
 export interface FilterPanelProps {
@@ -69,6 +71,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           <Select
             labelId="state-select-label"
             id="state-select"
+            data-testid="state-select"
             value={selectedState}
             label="Estado"
             onChange={(e) => onStateChange(e.target.value as string)}
@@ -97,6 +100,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           <Select
             labelId="city-select-label"
             id="city-select"
+            data-testid="city-select"
             value={selectedCity}
             label="Cidade"
             onChange={(e) => onCityChange(e.target.value as string)}
@@ -112,33 +116,51 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           </Select>
         </FormControl>
 
-        <FormControl 
-          fullWidth 
-          size="small" 
-          disabled={!selectedCity || loadingNeighborhoods}
-          sx={{
-            transition: 'opacity 0.3s ease-in-out',
-            opacity: !selectedCity || loadingNeighborhoods ? 0.6 : 1,
-          }}
-        >
-          <InputLabel id="neighborhood-select-label">Bairro</InputLabel>
-          <Select
-            labelId="neighborhood-select-label"
-            id="neighborhood-select"
-            value={selectedNeighborhood}
-            label="Bairro"
-            onChange={(e) => onNeighborhoodChange(e.target.value as string)}
+        <Box sx={{ position: 'relative' }}>
+          <FormControl 
+            fullWidth 
+            size="small" 
+            disabled={!selectedCity || loadingNeighborhoods}
+            sx={{
+              transition: 'opacity 0.3s ease-in-out',
+              opacity: !selectedCity || loadingNeighborhoods ? 0.6 : 1,
+            }}
           >
-            <MenuItem value="">
-              <em>{loadingNeighborhoods ? 'Carregando...' : 'Todos os bairros'}</em>
-            </MenuItem>
-            {neighborhoods.map((neighborhood) => (
-              <MenuItem key={neighborhood} value={neighborhood}>
-                {neighborhood}
+            <InputLabel id="neighborhood-select-label">Bairro</InputLabel>
+            <Select
+              labelId="neighborhood-select-label"
+              id="neighborhood-select"
+              data-testid="neighborhood-select"
+              value={selectedNeighborhood}
+              label="Bairro"
+              onChange={(e) => onNeighborhoodChange(e.target.value as string)}
+            >
+              <MenuItem value="">
+                <em>{loadingNeighborhoods ? 'Carregando...' : 'Todos os bairros'}</em>
               </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+              {neighborhoods.map((neighborhood) => (
+                <MenuItem key={neighborhood} value={neighborhood}>
+                  {neighborhood}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          {selectedNeighborhood && (
+            <IconButton
+              data-testid="clear-neighborhood"
+              size="small"
+              onClick={() => onNeighborhoodChange('')}
+              sx={{
+                position: 'absolute',
+                right: 32,
+                top: '50%',
+                transform: 'translateY(-50%)',
+              }}
+            >
+              <ClearIcon fontSize="small" />
+            </IconButton>
+          )}
+        </Box>
       </Box>
       </Box>
   );
