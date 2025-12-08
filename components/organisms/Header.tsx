@@ -100,7 +100,6 @@ const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' })
             <Link href="/" passHref style={{ textDecoration: 'none' }}>
               <Button
                 variant={isActive('/') ? 'contained' : 'outlined'}
-                startIcon={<HomeIcon sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }} />}
                 sx={{
                   color: isActive('/') ? 'primary.main' : 'white',
                   backgroundColor: isActive('/') ? 'white' : 'transparent',
@@ -115,9 +114,15 @@ const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' })
                   fontSize: { xs: '0.75rem', sm: '0.875rem' },
                   px: { xs: 1, sm: 2 },
                   py: { xs: 0.75, sm: 1 },
+                  minWidth: { xs: '40px', sm: 'auto' },
                   minHeight: { xs: '36px', sm: '40px' },
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: { xs: 0, sm: 1 },
                 }}
               >
+                <HomeIcon sx={{ fontSize: { xs: '1.25rem', sm: '1.25rem' } }} />
                 <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
                   Início
                 </Box>
@@ -126,7 +131,6 @@ const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' })
             <Link href="/favorites" passHref style={{ textDecoration: 'none' }}>
               <Button
                 variant={isActive('/favorites') ? 'contained' : 'outlined'}
-                startIcon={<FavoriteIcon sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }} />}
                 sx={{
                   color: isActive('/favorites') ? 'primary.main' : 'white',
                   backgroundColor: isActive('/favorites') ? 'white' : 'transparent',
@@ -141,9 +145,15 @@ const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' })
                   fontSize: { xs: '0.75rem', sm: '0.875rem' },
                   px: { xs: 1, sm: 2 },
                   py: { xs: 0.75, sm: 1 },
+                  minWidth: { xs: '40px', sm: 'auto' },
                   minHeight: { xs: '36px', sm: '40px' },
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: { xs: 0, sm: 1 },
                 }}
               >
+                <FavoriteIcon sx={{ fontSize: { xs: '1.25rem', sm: '1.25rem' } }} />
                 <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
                   Favoritos
                 </Box>
