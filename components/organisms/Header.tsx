@@ -16,21 +16,14 @@ export interface HeaderProps {
   title?: string;
 }
 
-/**
- * Header organism - Cabeçalho da aplicação flutuante
- * Inclui logo, título e navegação para favoritos
- * Fica fixo no topo ao fazer scroll
- */
 const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' }) => {
   const router = useRouter();
   
-  // Detecta quando o usuário faz scroll para adicionar sombra
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
   });
   
-  // Verifica se a página está ativa
   const isActive = (pathname: string) => router?.pathname === pathname;
 
   return (
@@ -74,24 +67,16 @@ const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' })
                 component="h1"
                 sx={{
                   fontWeight: 600,
-                  fontSize: { xs: '1rem', sm: '1.25rem' },
+                  fontSize: { xs: '0.9rem', sm: '1.25rem' },
                   color: 'white',
-                  display: { xs: 'none', sm: 'block' },
                 }}
               >
-                {title}
-              </Typography>
-              <Typography
-                variant="h6"
-                component="h1"
-                sx={{
-                  fontWeight: 600,
-                  fontSize: '0.9rem',
-                  color: 'white',
-                  display: { xs: 'block', sm: 'none' },
-                }}
-              >
-                Farmácia Popular
+                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                  {title}
+                </Box>
+                <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                  Farmácia Popular
+                </Box>
               </Typography>
             </Box>
           </Link>
@@ -131,6 +116,7 @@ const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' })
             <Link href="/favorites" passHref style={{ textDecoration: 'none' }}>
               <Button
                 variant={isActive('/favorites') ? 'contained' : 'outlined'}
+                aria-label="Favoritos"
                 sx={{
                   color: isActive('/favorites') ? 'primary.main' : 'white',
                   backgroundColor: isActive('/favorites') ? 'white' : 'transparent',

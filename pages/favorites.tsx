@@ -29,6 +29,8 @@ export default function Favorites() {
   
   // Fetch pharmacies when favorites change
   useEffect(() => {
+    const controller = new AbortController();
+    
     const fetchFavoritePharmacies = async () => {
       if (favorites.length === 0) {
         setPharmacies([]);
@@ -40,13 +42,13 @@ export default function Favorites() {
       setError(null);
 
       try {
-        // Busca farmácias específicas por CNPJ
         const response = await fetch('/api/pharmacies/by-cnpj', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ cnpjs: favorites }),
+          signal: controller.signal,
         });
 
         if (!response.ok) {
@@ -60,6 +62,7 @@ export default function Favorites() {
         
         setPharmacies(favoritePharmacies);
       } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') return;
         console.error('Error fetching favorite pharmacies:', err);
         setError('Erro ao carregar farmácias favoritas. Por favor, tente novamente.');
       } finally {
@@ -68,6 +71,7 @@ export default function Favorites() {
     };
 
     fetchFavoritePharmacies();
+    return () => controller.abort();
   }, [favorites]);
 
   const handleFavoriteToggle = (cnpj: string) => {
