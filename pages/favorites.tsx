@@ -27,7 +27,6 @@ export default function Favorites() {
   
   const { favorites, toggleFavorite, error: favoritesError } = useFavorites();
   
-  // Fetch pharmacies when favorites change
   useEffect(() => {
     const controller = new AbortController();
     
