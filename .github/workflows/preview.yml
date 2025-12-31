@@ -1,11 +1,11 @@
-name: Nightly Deploy
+name: Preview Deploy
 
 on:
-  push:
-    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
-  nightly:
+  preview:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -37,11 +37,11 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
             ${{ runner.os }}-nextjs-
       
-      - name: Set nightly version
+      - name: Set preview version
         run: |
-          NIGHTLY_VERSION="$(node -p "require('./package.json').version")-nightly.$(date +%Y%m%d)"
-          npm version $NIGHTLY_VERSION --no-git-tag-version
-          echo "VERSION=$NIGHTLY_VERSION" >> $GITHUB_ENV
+          PREVIEW_VERSION="$(node -p "require('./package.json').version")-pr.${{ github.event.number }}"
+          npm version $PREVIEW_VERSION --no-git-tag-version
+          echo "VERSION=$PREVIEW_VERSION" >> $GITHUB_ENV
       
       - name: Build project
         run: npm run build
