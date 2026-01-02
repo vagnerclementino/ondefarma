@@ -9,8 +9,7 @@ import Fade from '@mui/material/Fade';
 import Grow from '@mui/material/Grow';
 import Link from 'next/link';
 import { Pharmacy } from '../types/pharmacy';
-import { Header, Footer } from '../components/organisms';
-import { PharmacyList } from '../components/organisms';
+import { Header, Footer, PharmacyList } from '../components/organisms';
 import { Button } from '../components/atoms';
 import { useFavorites } from '../hooks/useFavorites';
 
@@ -54,10 +53,23 @@ export default function Favorites() {
           throw new Error('Erro ao carregar farmácias');
         }
         
-        const data = await response.json();
-        const favoritePharmacies = data.data || [];
+        const data: unknown = await response.json();
         
-        console.log('[Favorites] Fetched pharmacies:', favoritePharmacies.length);
+        // Type guard to validate API response structure
+        const isValidApiResponse = (data: unknown): data is { data: Pharmacy[] } => {
+          return (
+            typeof data === 'object' &&
+            data !== null &&
+            'data' in data &&
+            Array.isArray((data as any).data)
+          );
+        };
+        
+        if (!isValidApiResponse(data)) {
+          throw new Error('Resposta da API em formato inválido');
+        }
+        
+        const favoritePharmacies = data.data;
         
         setPharmacies(favoritePharmacies);
       } catch (err) {

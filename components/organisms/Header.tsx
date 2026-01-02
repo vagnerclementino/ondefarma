@@ -85,6 +85,7 @@ const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' })
             <Link href="/" passHref style={{ textDecoration: 'none' }}>
               <Button
                 variant={isActive('/') ? 'contained' : 'outlined'}
+                aria-label="Início"
                 sx={{
                   color: isActive('/') ? 'primary.main' : 'white',
                   backgroundColor: isActive('/') ? 'white' : 'transparent',
