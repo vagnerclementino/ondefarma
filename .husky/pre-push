@@ -1,4 +1,5 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+echo "🔍 Running ESLint..."
+npm run lint || exit 1
 
-npm test
+echo "🧪 Running tests..."
+npm test || exit 1
