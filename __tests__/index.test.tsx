@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import Home from '../pages/index';
+import Home from '@/pages/index';
 import '../__mocks__/pharmacy-fetch.mock';
 import '@testing-library/jest-dom';
 
 // Mock SWR hooks
-jest.mock('../hooks/usePharmacies', () => ({
+jest.mock('@/hooks/usePharmacies', () => ({
   usePharmacies: jest.fn(() => ({
     pharmacies: [
       {

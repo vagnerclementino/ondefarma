@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { IconButton } from '../atoms';
-import { Pharmacy } from '../../types/pharmacy';
+import { IconButton } from '@/components/atoms';
+import { Pharmacy } from '@/types/pharmacy';
 
 export interface PharmacyCardProps {
   pharmacy: Pharmacy;

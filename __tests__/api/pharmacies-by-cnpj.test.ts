@@ -1,12 +1,12 @@
 import { createMocks } from 'node-mocks-http';
-import handler from '../../pages/api/pharmacies/by-cnpj';
+import handler from '@/pages/api/pharmacies/by-cnpj';
 
 // Mock do módulo pharmacyData
-jest.mock('../../lib/pharmacyData', () => ({
+jest.mock('@/lib/pharmacyData', () => ({
   readPharmaciesFromCSV: jest.fn(),
 }));
 
-import { readPharmaciesFromCSV } from '../../lib/pharmacyData';
+import { readPharmaciesFromCSV } from '@/lib/pharmacyData';
 
 describe('/api/pharmacies/by-cnpj', () => {
   beforeEach(() => {

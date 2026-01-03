@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import NextLink from 'next/link';
-import { DataUpdateInfo } from '../atoms';
+import { DataUpdateInfo } from '@/components/atoms';
 
 export interface FooterProps {
   version?: string;

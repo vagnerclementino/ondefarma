@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import DataUpdateInfo from '../components/atoms/DataUpdateInfo';
+import DataUpdateInfo from '@/components/atoms/DataUpdateInfo';
 
 describe('DataUpdateInfo', () => {
   const originalEnv = process.env;

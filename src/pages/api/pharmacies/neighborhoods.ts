@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getNeighborhoods } from '../../../lib/pharmacyData';
+import { getNeighborhoods } from '@/lib/pharmacyData';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {

@@ -10,7 +10,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Button } from '../atoms';
+import { Button } from '@/components/atoms';
 
 export interface HeaderProps {
   title?: string;

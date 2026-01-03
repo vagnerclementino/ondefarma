@@ -1,6 +1,6 @@
 import { createMocks } from 'node-mocks-http';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import handler from '../../pages/api/pharmacies/states';
+import handler from '@/pages/api/pharmacies/states';
 
 const waitForResponse = (res: any): Promise<void> => {
   return new Promise((resolve) => {

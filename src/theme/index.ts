@@ -1,17 +1,21 @@
 import { createTheme } from '@mui/material/styles';
 
-// Tema customizado para Farmácia Popular
-// Cores: azul governo (primary) e verde saúde (secondary)
+/*
+ * Tema customizado para Farmácia Popular
+ * Cores: azul governo (primary) e verde saúde (secondary)
+ */
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#0056B3', // Azul governo brasileiro
+      /* Azul governo brasileiro */
+      main: '#0056B3',
       light: '#3380CC',
       dark: '#003D82',
       contrastText: '#FFFFFF',
     },
     secondary: {
-      main: '#28A745', // Verde saúde
+      /* Verde saúde */
+      main: '#28A745',
       light: '#5CB85C',
       dark: '#1E7E34',
       contrastText: '#FFFFFF',
@@ -87,14 +91,20 @@ const theme = createTheme({
   },
   breakpoints: {
     values: {
-      xs: 0,      // Extra small: mobile phones
-      sm: 600,    // Small: tablets
-      md: 960,    // Medium: small laptops
-      lg: 1280,   // Large: desktops
-      xl: 1920,   // Extra large: large desktops
+      /* Extra small: mobile phones */
+      xs: 0,
+      /* Small: tablets */
+      sm: 600,
+      /* Medium: small laptops */
+      md: 960,
+      /* Large: desktops */
+      lg: 1280,
+      /* Extra large: large desktops */
+      xl: 1920,
     },
   },
-  spacing: 8, // Base spacing unit (8px)
+  /* Base spacing unit (8px) */
+  spacing: 8,
 });
 
 export default theme;

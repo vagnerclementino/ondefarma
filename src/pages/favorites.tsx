@@ -8,12 +8,12 @@ import Snackbar from '@mui/material/Snackbar';
 import Fade from '@mui/material/Fade';
 import Grow from '@mui/material/Grow';
 import Link from 'next/link';
-import { Pharmacy } from '../types/pharmacy';
-import { Header, Footer, PharmacyList } from '../components/organisms';
-import { Button } from '../components/atoms';
-import { useFavorites } from '../hooks/useFavorites';
+import { Pharmacy } from '@/types/pharmacy';
+import { Header, Footer, PharmacyList } from '@/components/organisms';
+import { Button } from '@/components/atoms';
+import { useFavorites } from '@/hooks/useFavorites';
 
-const ScrollToTop = dynamic(() => import('../components/atoms/ScrollToTop'), {
+const ScrollToTop = dynamic(() => import('@/components/atoms/ScrollToTop'), {
   ssr: false,
 });
 

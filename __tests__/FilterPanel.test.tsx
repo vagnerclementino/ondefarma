@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import FilterPanel from '../components/molecules/FilterPanel';
+import FilterPanel from '@/components/molecules/FilterPanel';
 
 describe('FilterPanel', () => {
   const mockStates = ['MG', 'SP', 'RJ'];

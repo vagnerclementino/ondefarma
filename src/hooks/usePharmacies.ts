@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { Pharmacy } from '../types/pharmacy';
+import { Pharmacy } from '@/types/pharmacy';
 
 // Fetcher function for SWR
 const fetcher = async (url: string) => {

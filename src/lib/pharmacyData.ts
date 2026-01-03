@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import csv from 'csv-parser';
-import { Pharmacy } from '../types/pharmacy';
+import { Pharmacy } from '@/types/pharmacy';
 
 interface PharmacyFilters {
   state?: string;
@@ -12,7 +12,7 @@ interface PharmacyFilters {
 export function readPharmaciesFromCSV(filters?: PharmacyFilters): Promise<Pharmacy[]> {
   return new Promise((resolve, reject) => {
     const results: Pharmacy[] = [];
-    const filePath = path.join(process.cwd(), 'data', 'pharmacies.csv');
+    const filePath = path.join(process.cwd(), 'src', 'data', 'pharmacies.csv');
 
     fs.createReadStream(filePath)
       .pipe(csv({

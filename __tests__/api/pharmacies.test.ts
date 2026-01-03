@@ -1,6 +1,6 @@
 import { createMocks } from 'node-mocks-http';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import handler from '../../pages/api/pharmacies';
+import handler from '@/pages/api/pharmacies';
 
 // Helper to wait for stream-based API responses
 const waitForResponse = (res: any): Promise<void> => {

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { readPharmaciesFromCSV } from '../../../lib/pharmacyData';
-import { Pharmacy } from '../../../types/pharmacy';
+import { readPharmaciesFromCSV } from '@/lib/pharmacyData';
+import { Pharmacy } from '@/types/pharmacy';
 
 export default async function handler(
   req: NextApiRequest,

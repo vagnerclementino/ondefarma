@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import PharmacyCard from '../components/molecules/PharmacyCard';
-import { Pharmacy } from '../types/pharmacy';
+import PharmacyCard from '@/components/molecules/PharmacyCard';
+import { Pharmacy } from '@/types/pharmacy';
 
 const mockPharmacy: Pharmacy = {
   cnpj: '12.345.678/0001-90',

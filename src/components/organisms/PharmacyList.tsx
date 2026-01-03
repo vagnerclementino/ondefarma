@@ -6,8 +6,8 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Fade from '@mui/material/Fade';
 import Grow from '@mui/material/Grow';
-import { PharmacyCard } from '../molecules';
-import { Pharmacy } from '../../types/pharmacy';
+import { PharmacyCard } from '@/components/molecules';
+import { Pharmacy } from '@/types/pharmacy';
 
 export interface PharmacyListProps {
   pharmacies: Pharmacy[];

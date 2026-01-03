@@ -75,66 +75,87 @@ npm run test:watch
 
 ## 📁 Estrutura do Projeto
 
-O projeto segue a metodologia **Atomic Design** para organização de componentes:
+O projeto segue a metodologia **Atomic Design** para organização de componentes e utiliza o diretório `src/` para melhor organização:
 
 ```
 achefarmaciapopular/
-├── components/              # Componentes React organizados por Atomic Design
-│   ├── atoms/              # Elementos básicos (Button, Input, Icon, etc.)
-│   ├── molecules/          # Composições simples (FilterPanel, PharmacyCard)
-│   └── organisms/          # Seções complexas (Header, Footer, PharmacyList)
-├── pages/                  # Páginas Next.js e API routes
-│   ├── api/               # API routes do Next.js
-│   │   └── pharmacies/    # Endpoints de farmácias (states, cities, neighborhoods)
-│   ├── index.tsx          # Página principal
-│   ├── favorites.tsx      # Página de favoritos
-│   └── termos-de-uso.tsx  # Termos de uso
-├── hooks/                  # Custom React hooks
-│   ├── useFavorites.ts    # Hook para gerenciar favoritos
-│   └── usePharmacies.ts   # Hook para buscar farmácias com SWR
-├── types/                  # Definições TypeScript
-│   ├── pharmacy.ts        # Interface Pharmacy
-│   └── queryParams.ts     # Tipos de parâmetros de query
-├── data/                   # Dados estáticos
-│   └── pharmacies.csv     # Base de dados de farmácias
+├── src/                    # Código fonte da aplicação
+│   ├── components/         # Componentes React organizados por Atomic Design
+│   │   ├── atoms/         # Elementos básicos (Button, Input, Icon, etc.)
+│   │   ├── molecules/     # Composições simples (FilterPanel, PharmacyCard)
+│   │   └── organisms/     # Seções complexas (Header, Footer, PharmacyList)
+│   ├── pages/             # Páginas Next.js e API routes
+│   │   ├── api/           # API routes do Next.js
+│   │   │   └── pharmacies/ # Endpoints de farmácias (states, cities, neighborhoods)
+│   │   ├── index.tsx      # Página principal
+│   │   ├── favorites.tsx  # Página de favoritos
+│   │   └── termos-de-uso.tsx # Termos de uso
+│   ├── hooks/             # Custom React hooks
+│   │   ├── useFavorites.ts # Hook para gerenciar favoritos
+│   │   └── usePharmacies.ts # Hook para buscar farmácias com SWR
+│   ├── types/             # Definições TypeScript
+│   │   ├── pharmacy.ts    # Interface Pharmacy
+│   │   └── queryParams.ts # Tipos de parâmetros de query
+│   ├── lib/               # Funções utilitárias
+│   │   └── pharmacyData.ts # Processamento de dados CSV
+│   ├── data/              # Dados estáticos
+│   │   └── pharmacies.csv # Base de dados de farmácias
+│   └── theme/             # Configuração do tema Material-UI
 ├── __tests__/             # Testes unitários e de integração
-├── theme/                  # Configuração do tema Material-UI
+├── __mocks__/             # Mocks para testes
 └── public/                # Arquivos estáticos
 
 ```
 
 ### Arquitetura
 
-- **Frontend**: Next.js 13 com React 18 e TypeScript
-- **UI Library**: Material-UI v5 (MUI) com tema customizado
+- **Frontend**: Next.js 15.1.3 com React 18.3 e TypeScript 5.7
+- **UI Library**: Material-UI v6 (MUI) com tema customizado
 - **State Management**: React hooks (useState, useEffect) + SWR para cache
 - **Data Fetching**: SWR (stale-while-revalidate) para cache automático
 - **Storage**: localStorage para persistência de favoritos
-- **Testing**: Jest + React Testing Library
+- **Testing**: Jest + React Testing Library com mocks do Next.js router
 - **Code Quality**: ESLint + Husky (pre-push hooks)
+- **Path Aliases**: Imports limpos com `@/*` apontando para `src/*`
 
 ## 🎨 Atomic Design
 
-A estrutura de componentes segue o padrão Atomic Design:
+A estrutura de componentes segue o padrão Atomic Design dentro do diretório `src/components/`:
 
-- **Atoms** (`components/atoms/`): Elementos básicos indivisíveis
-  - Button, TextField, Select, IconButton, ScrollToTop
+- **Atoms** (`src/components/atoms/`): Elementos básicos indivisíveis
+  - Button, TextField, Select, IconButton, ScrollToTop, MarkdownContent
   
-- **Molecules** (`components/molecules/`): Composições simples de atoms
+- **Molecules** (`src/components/molecules/`): Composições simples de atoms
   - FilterPanel, PharmacyCard
   
-- **Organisms** (`components/organisms/`): Seções complexas da UI
+- **Organisms** (`src/components/organisms/`): Seções complexas da UI
   - Header, Footer, PharmacyList
+
+### Path Aliases
+
+O projeto utiliza path aliases para imports mais limpos:
+
+```typescript
+// Antes da migração
+import { Pharmacy } from '../../../types/pharmacy';
+import { Header } from '../../components/organisms';
+
+// Depois da migração
+import { Pharmacy } from '@/types/pharmacy';
+import { Header } from '@/components/organisms';
+```
+
+Todos os imports utilizam o prefixo `@/` que aponta para o diretório `src/`.
 
 ## 🛠️ Tecnologias Utilizadas
 
 ### Core
-- **Next.js 13.0.0** - Framework React com SSR e API routes
-- **React 18.0.0** - Biblioteca UI
-- **TypeScript 5.2.2** - Superset JavaScript com tipagem estática
+- **Next.js 15.1.3** - Framework React com SSR e API routes
+- **React 18.3.1** - Biblioteca UI
+- **TypeScript 5.7.2** - Superset JavaScript com tipagem estática
 
 ### UI & Styling
-- **Material-UI v7** (@mui/material, @mui/icons-material) - Sistema de design
+- **Material-UI v6** (@mui/material, @mui/icons-material) - Sistema de design
 - **Emotion** (@emotion/react, @emotion/styled) - CSS-in-JS
 
 ### Data & State
@@ -145,24 +166,39 @@ A estrutura de componentes segue o padrão Atomic Design:
 - **Jest 29.7.0** - Framework de testes
 - **React Testing Library** - Testes de componentes React
 - **jest-fetch-mock** - Mock de requisições fetch
+- **Next.js Router Mock** - Mock global do router para testes
 
 ### Development Tools
 - **Husky 9.1.7** - Git hooks
-- **ESLint** - Linter JavaScript/TypeScript
+- **ESLint 8.57.1** - Linter JavaScript/TypeScript
+- **Path Aliases** - Imports limpos com `@/*`
 
 ## 🧪 Testes
 
 O projeto possui cobertura de testes para:
 
-- ✅ Componentes React (FilterPanel, PharmacyCard)
-- ✅ API routes (pharmacies, states, cities, neighborhoods)
+- ✅ Componentes React (FilterPanel, PharmacyCard, DataUpdateInfo)
+- ✅ API routes (pharmacies, states, cities, neighborhoods, by-cnpj)
 - ✅ Custom hooks (useFavorites)
-- ✅ Páginas (index)
+- ✅ Páginas (index, com mock do Next.js router)
+- ✅ Property-based testing (com fast-check)
+
+### Configuração de Testes
+
+Os testes utilizam:
+- **Jest** com configuração para path aliases (`@/*`)
+- **Mock global do Next.js router** no `jest.setup.js`
+- **jsdom** para ambiente de testes
+- **@testing-library/react** para testes de componentes
 
 Execute os testes com:
 ```bash
-npm test
+npm test                    # Executa todos os testes
+npm run test:watch         # Executa em modo watch
+npm run test:coverage      # Executa com cobertura
 ```
+
+**Status atual**: ✅ 71/71 testes passando
 
 ## 📋 Qualidade de Código
 
@@ -227,6 +263,14 @@ Os workflows estão em `.github/workflows/`.
 - Dados estáticos: farmácias não mudam frequentemente
 - Sem custos de infraestrutura
 - Fácil atualização: basta substituir o arquivo CSV
+- Localização: dados ficam em `src/data/pharmacies.csv`
+
+### Por que Diretório src/?
+- **Organização moderna**: Separação clara entre código fonte e configuração
+- **Padrão da indústria**: Seguindo convenções estabelecidas
+- **Path aliases**: Imports mais limpos com `@/*`
+- **Melhor navegação**: Estrutura lógica e intuitiva
+- **Compatibilidade**: Suporte nativo do Next.js 13+
 
 ## 🔄 Git Hooks
 
@@ -235,6 +279,28 @@ O projeto utiliza Husky para garantir qualidade do código:
 - **pre-push**: Executa todos os testes antes de fazer push
   - Garante que código quebrado não seja enviado ao repositório
   - Mantém a branch principal sempre estável
+
+## 🚀 Migração Recente
+
+O projeto foi recentemente migrado para uma estrutura mais moderna:
+
+### ✅ **Atualizações Realizadas**
+- **Next.js**: 13.0.0 → 15.1.3 (última versão estável)
+- **React**: 18.0.0 → 18.3.1
+- **TypeScript**: 5.2.2 → 5.7.2
+- **Estrutura src/**: Todo código movido para diretório `src/`
+- **Path Aliases**: Implementados imports com `@/*`
+- **Testes**: Configuração atualizada com mocks do Next.js router
+- **TypeScript Strict**: Modo estrito habilitado para maior segurança
+
+### 📈 **Benefícios da Migração**
+- **Performance**: Melhorias do Next.js 15 (Turbopack, cache otimizado)
+- **Organização**: Estrutura mais limpa com separação clara
+- **Manutenibilidade**: Imports mais legíveis e refatoração facilitada
+- **Qualidade**: TypeScript strict mode para maior segurança de tipos
+- **Testes**: Configuração robusta com 71/71 testes passando
+
+Para detalhes completos da migração, veja [MIGRATION_SUMMARY.md](MIGRATION_SUMMARY.md).
 
 ## 📸 Demo
 

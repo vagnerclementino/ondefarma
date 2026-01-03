@@ -5,7 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
-import { Select } from '../atoms';
+import { Select } from '@/components/atoms';
 
 export interface FilterPanelProps {
   selectedState: string;

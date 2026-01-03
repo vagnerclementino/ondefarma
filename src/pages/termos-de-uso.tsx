@@ -3,22 +3,26 @@ import fs from 'fs';
 import path from 'path';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Link from 'next/link';
-import { Header, Footer } from '../components/organisms';
-import { Button, ScrollToTop, MarkdownContent } from '../components/atoms';
+import { Header, Footer } from '@/components/organisms';
+import { Button, ScrollToTop, MarkdownContent } from '@/components/atoms';
 
-interface SobreProps {
+interface TermosDeUsoProps {
   content: string;
+  lastUpdated: string;
 }
 
-export default function Sobre({ content }: SobreProps) {
+export default function TermosDeUso({ content, lastUpdated }: TermosDeUsoProps) {
+  const processedContent = content.replace('{DATE}', lastUpdated);
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header />
       <Container maxWidth="md" sx={{ flex: 1, py: 4 }}>
         <Paper elevation={2} sx={{ p: 4 }}>
-          <MarkdownContent content={content} />
+          <MarkdownContent content={processedContent} />
 
           <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
             <Link href="/" passHref style={{ textDecoration: 'none' }}>
@@ -35,13 +39,15 @@ export default function Sobre({ content }: SobreProps) {
   );
 }
 
-export const getStaticProps: GetStaticProps<SobreProps> = async () => {
-  const filePath = path.join(process.cwd(), 'content', 'sobre.md');
+export const getStaticProps: GetStaticProps<TermosDeUsoProps> = async () => {
+  const filePath = path.join(process.cwd(), 'content', 'termos-de-uso.md');
   const content = fs.readFileSync(filePath, 'utf-8');
+  const lastUpdated = new Date().toLocaleDateString('pt-BR');
 
   return {
     props: {
       content,
+      lastUpdated,
     },
   };
 };

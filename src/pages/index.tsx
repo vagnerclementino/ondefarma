@@ -5,14 +5,14 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import Fade from '@mui/material/Fade';
-import { Pharmacy } from '../types/pharmacy';
-import { Header, Footer } from '../components/organisms';
-import { FilterPanel } from '../components/molecules';
-import { PharmacyList } from '../components/organisms';
-import { useFavorites } from '../hooks/useFavorites';
-import { usePharmacies, useStates, useCities, useNeighborhoods } from '../hooks/usePharmacies';
+import { Pharmacy } from '@/types/pharmacy';
+import { Header, Footer } from '@/components/organisms';
+import { FilterPanel } from '@/components/molecules';
+import { PharmacyList } from '@/components/organisms';
+import { useFavorites } from '@/hooks/useFavorites';
+import { usePharmacies, useStates, useCities, useNeighborhoods } from '@/hooks/usePharmacies';
 
-const ScrollToTop = dynamic(() => import('../components/atoms/ScrollToTop'), {
+const ScrollToTop = dynamic(() => import('@/components/atoms/ScrollToTop'), {
   ssr: false,
 });
 

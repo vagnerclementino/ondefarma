@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import * as fc from 'fast-check';
-import DataUpdateInfo from '../components/atoms/DataUpdateInfo';
+import DataUpdateInfo from '@/components/atoms/DataUpdateInfo';
 
 /**
  * Feature: farmacia-popular-mvp, Property 68: Update date formatted in Brazilian format

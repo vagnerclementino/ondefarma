@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { readPharmaciesFromCSV } from '../../lib/pharmacyData';
+import { readPharmaciesFromCSV } from '@/lib/pharmacyData';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
