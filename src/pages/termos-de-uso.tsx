@@ -14,15 +14,13 @@ interface TermosDeUsoProps {
   lastUpdated: string;
 }
 
-export default function TermosDeUso({ content, lastUpdated }: TermosDeUsoProps) {
-  const processedContent = content.replace('{DATE}', lastUpdated);
-
+export default function TermosDeUso({ content }: TermosDeUsoProps) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header />
       <Container maxWidth="md" sx={{ flex: 1, py: 4 }}>
         <Paper elevation={2} sx={{ p: 4 }}>
-          <MarkdownContent content={processedContent} />
+          <MarkdownContent content={content} />
 
           <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
             <Link href="/" passHref style={{ textDecoration: 'none' }}>
@@ -42,7 +40,10 @@ export default function TermosDeUso({ content, lastUpdated }: TermosDeUsoProps) 
 export const getStaticProps: GetStaticProps<TermosDeUsoProps> = async () => {
   const filePath = path.join(process.cwd(), 'content', 'termos-de-uso.md');
   const content = fs.readFileSync(filePath, 'utf-8');
-  const lastUpdated = new Date().toLocaleDateString('pt-BR');
+  
+  // Extract the date from the markdown content
+  const dateMatch = content.match(/\*\*Última atualização:\*\* (.+)/);
+  const lastUpdated = dateMatch ? dateMatch[1] : new Date().toLocaleDateString('pt-BR');
 
   return {
     props: {

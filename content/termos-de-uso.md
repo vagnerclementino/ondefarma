@@ -1,14 +1,18 @@
 # Termos de Uso
 
-**Última atualização:** {DATE}
+**Última atualização:** 02/01/2026
 
 ## 1. Sobre o Site
 
-O site "Ache uma Farmácia Popular" é uma plataforma independente e **não oficial** que tem como objetivo facilitar a busca por farmácias credenciadas no Programa Farmácia Popular do Governo Federal Brasileiro.
+O site "Ache uma Farmácia Popular" é uma plataforma independente e **não
+oficial** que tem como objetivo facilitar a busca por farmácias credenciadas no
+Programa Farmácia Popular do Governo Federal Brasileiro.
 
 ## 2. Isenção de Responsabilidade
 
-**Este site não é oficial do Governo do Brasil.** Os dados apresentados são obtidos de fontes públicas e podem conter imprecisões, estar desatualizados ou incompletos.
+**Este site não é oficial do Governo do Brasil.** Os dados apresentados são
+*obtidos de fontes públicas e podem conter imprecisões, estar desatualizados ou
+*incompletos.
 
 O autor deste site **não se responsabiliza** por:
 
@@ -20,7 +24,10 @@ O autor deste site **não se responsabiliza** por:
 
 ## 3. Fonte dos Dados
 
-Os dados das farmácias são obtidos de fontes públicas disponibilizadas pelo Governo Federal. Recomendamos que os usuários confirmem as informações diretamente com as farmácias ou através dos canais oficiais do Programa Farmácia Popular.
+Os dados das farmácias são obtidos de fontes públicas disponibilizadas pelo
+Governo Federal. Recomendamos que os usuários confirmem as informações
+diretamente com as farmácias ou através dos canais oficiais do Programa Farmácia
+Popular.
 
 ## 4. Uso do Site
 
@@ -32,11 +39,14 @@ Ao utilizar este site, você concorda que:
 
 ## 5. Privacidade
 
-Este site utiliza localStorage do navegador para armazenar suas preferências (como farmácias favoritas). Nenhum dado pessoal é coletado, armazenado em servidores externos ou compartilhado com terceiros.
+Este site utiliza localStorage do navegador para armazenar suas preferências
+(como farmácias favoritas). Nenhum dado pessoal é coletado, armazenado em
+servidores externos ou compartilhado com terceiros.
 
 ## 6. Modificações
 
-Estes termos de uso podem ser atualizados a qualquer momento sem aviso prévio. Recomendamos que você revise esta página periodicamente.
+Estes termos de uso podem ser atualizados a qualquer momento sem aviso prévio.
+Recomendamos que você revise esta página periodicamente.
 
 ## 7. Contato
 
