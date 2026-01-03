@@ -21,17 +21,14 @@ export default async function handler(
       return res.status(200).json({ data: [] });
     }
 
-    // Busca todas as farmácias
     const allPharmacies = await readPharmaciesFromCSV({});
 
-    // Filtra pelas que estão na lista de CNPJs
     const pharmacies = allPharmacies.filter((pharmacy: Pharmacy) =>
       cnpjs.includes(pharmacy.cnpj)
     );
 
     return res.status(200).json({ data: pharmacies });
   } catch (error) {
-    console.error('Error fetching pharmacies by CNPJ:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 }

@@ -9,9 +9,6 @@ interface PharmacyFilters {
   neighborhood?: string;
 }
 
-/**
- * Read and parse pharmacy data from CSV file
- */
 export function readPharmaciesFromCSV(filters?: PharmacyFilters): Promise<Pharmacy[]> {
   return new Promise((resolve, reject) => {
     const results: Pharmacy[] = [];
@@ -30,11 +27,9 @@ export function readPharmaciesFromCSV(filters?: PharmacyFilters): Promise<Pharma
         }
       }))
       .on('data', (data: Pharmacy) => {
-        // Add city and state (all pharmacies in the CSV are from Belo Horizonte, MG)
         data.city = 'BELO HORIZONTE';
         data.state = 'MG';
 
-        // Apply filters if provided
         if (filters) {
           let matches = true;
           
@@ -66,9 +61,6 @@ export function readPharmaciesFromCSV(filters?: PharmacyFilters): Promise<Pharma
   });
 }
 
-/**
- * Get unique states from pharmacy data
- */
 export async function getStates(): Promise<string[]> {
   const pharmacies = await readPharmaciesFromCSV();
   const states = new Set<string>();
@@ -82,9 +74,6 @@ export async function getStates(): Promise<string[]> {
   return Array.from(states).sort();
 }
 
-/**
- * Get unique cities for a given state
- */
 export async function getCities(state: string): Promise<string[]> {
   const pharmacies = await readPharmaciesFromCSV({ state });
   const cities = new Set<string>();
@@ -98,9 +87,6 @@ export async function getCities(state: string): Promise<string[]> {
   return Array.from(cities).sort();
 }
 
-/**
- * Get unique neighborhoods for a given city and state
- */
 export async function getNeighborhoods(city: string, state: string): Promise<string[]> {
   const pharmacies = await readPharmaciesFromCSV({ city, state });
   const neighborhoods = new Set<string>();

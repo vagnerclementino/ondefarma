@@ -15,7 +15,6 @@ interface TermosDeUsoProps {
 }
 
 export default function TermosDeUso({ content, lastUpdated }: TermosDeUsoProps) {
-  // Replace {DATE} placeholder with actual date
   const processedContent = content.replace('{DATE}', lastUpdated);
 
   return (

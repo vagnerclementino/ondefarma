@@ -55,7 +55,6 @@ export default function Favorites() {
         
         const data: unknown = await response.json();
         
-        // Type guard to validate API response structure
         const isValidApiResponse = (data: unknown): data is { data: Pharmacy[] } => {
           return (
             typeof data === 'object' &&
@@ -74,7 +73,6 @@ export default function Favorites() {
         setPharmacies(favoritePharmacies);
       } catch (err) {
         if (err instanceof Error && err.name === 'AbortError') return;
-        console.error('Error fetching favorite pharmacies:', err);
         setError('Erro ao carregar farmácias favoritas. Por favor, tente novamente.');
       } finally {
         setIsLoading(false);
@@ -86,8 +84,14 @@ export default function Favorites() {
   }, [favorites]);
 
   const handleFavoriteToggle = (cnpj: string) => {
+    const isCurrentlyFavorite = favorites.includes(cnpj);
     toggleFavorite(cnpj);
-    setSnackbarMessage('Farmácia removida dos favoritos');
+    
+    const message = isCurrentlyFavorite 
+      ? 'Farmácia removida dos favoritos'
+      : 'Farmácia adicionada aos favoritos';
+    
+    setSnackbarMessage(message);
     setSnackbarOpen(true);
   };
 

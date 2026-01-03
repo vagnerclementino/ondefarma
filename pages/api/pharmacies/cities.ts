@@ -15,11 +15,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const cities = await getCities(state);
     
-    // Set cache headers (24 hours)
     res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400');
     res.status(200).json(cities);
   } catch (error) {
-    console.error('Error reading cities:', error);
     res.status(500).json({ error: 'Error reading cities' });
   }
 }

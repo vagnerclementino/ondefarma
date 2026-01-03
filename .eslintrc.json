@@ -5,26 +5,28 @@
     "no-warning-comments": [
       "error",
       {
-        "terms": ["todo", "fixme", "hack", "xxx", "note", "review"],
+        "terms": ["todo", "fixme", "hack", "xxx", "note", "review", "comment", "//", "/*"],
         "location": "anywhere"
       }
     ],
-    "spaced-comment": [
-      "error",
-      "always",
-      {
-        "block": {
-          "balanced": true
-        }
-      }
-    ]
+    "spaced-comment": "off",
+    "no-console": "error"
   },
   "overrides": [
     {
       "files": ["*.test.ts", "*.test.tsx", "*.spec.ts", "*.spec.tsx"],
       "rules": {
         "no-inline-comments": "off",
-        "no-warning-comments": "off"
+        "no-warning-comments": "off",
+        "no-console": "off"
+      }
+    },
+    {
+      "files": ["*.config.ts", "*.config.js", "next.config.js", "jest.config.ts", "cypress.config.ts", "tsconfig.json"],
+      "rules": {
+        "no-inline-comments": "off",
+        "no-warning-comments": "off",
+        "spaced-comment": "off"
       }
     }
   ]

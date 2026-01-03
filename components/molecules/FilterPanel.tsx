@@ -8,30 +8,22 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Select } from '../atoms';
 
 export interface FilterPanelProps {
-  // Estado
   selectedState: string;
   states: string[];
   onStateChange: (state: string) => void;
   
-  // Cidade
   selectedCity: string;
   cities: string[];
   onCityChange: (city: string) => void;
   
-  // Bairro
   selectedNeighborhood: string;
   neighborhoods: string[];
   onNeighborhoodChange: (neighborhood: string) => void;
   
-  // Loading states
   loadingCities?: boolean;
   loadingNeighborhoods?: boolean;
 }
 
-/**
- * FilterPanel molecule - Painel de filtros cascata
- * Implementa filtros por Estado → Cidade → Bairro
- */
 const FilterPanel: React.FC<FilterPanelProps> = ({
   selectedState,
   states,

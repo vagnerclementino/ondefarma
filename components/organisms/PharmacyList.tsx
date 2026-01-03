@@ -16,17 +16,12 @@ export interface PharmacyListProps {
   onFavoriteToggle?: (cnpj: string) => void;
 }
 
-/**
- * PharmacyList organism - Lista de farmácias
- * Renderiza grid de PharmacyCards com estados de loading e vazio
- */
 const PharmacyList: React.FC<PharmacyListProps> = ({
   pharmacies,
   isLoading = false,
   favoritePharmacies = [],
   onFavoriteToggle,
 }) => {
-  // Estado de loading
   if (isLoading) {
     return (
       <Box
@@ -74,7 +69,6 @@ const PharmacyList: React.FC<PharmacyListProps> = ({
     );
   }
 
-  // Estado vazio
   if (pharmacies.length === 0) {
     return (
       <Box
@@ -107,7 +101,6 @@ const PharmacyList: React.FC<PharmacyListProps> = ({
     );
   }
 
-  // Lista de farmácias
   return (
     <Box
       sx={{

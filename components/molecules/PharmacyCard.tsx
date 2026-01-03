@@ -15,10 +15,6 @@ export interface PharmacyCardProps {
   onFavoriteToggle?: (cnpj: string) => void;
 }
 
-/**
- * PharmacyCard molecule - Cartão de exibição de farmácia
- * Exibe informações da farmácia com botão de favorito
- */
 const PharmacyCard: React.FC<PharmacyCardProps> = ({
   pharmacy,
   isFavorite = false,

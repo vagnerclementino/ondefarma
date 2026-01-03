@@ -2,19 +2,12 @@ import React from 'react';
 import MuiSelect, { SelectProps as MuiSelectProps } from '@mui/material/Select';
 
 export type SelectProps = MuiSelectProps & {
-  // Extend with custom props if needed
 };
 
-/**
- * Select atom - wrapper do MUI Select
- * Componente básico de seleção seguindo Material Design
- * Otimizado para mobile com native select em telas pequenas
- */
 const Select: React.FC<SelectProps> = (props) => {
   return (
     <MuiSelect 
       {...props}
-      // Use native select on mobile for better UX
       native={false}
       MenuProps={{
         ...props.MenuProps,

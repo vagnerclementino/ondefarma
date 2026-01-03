@@ -5,21 +5,12 @@ import Zoom from '@mui/material/Zoom';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 
 export interface ScrollToTopProps {
-  /**
-   * Distância em pixels para mostrar o botão
-   * @default 100
-   */
   threshold?: number;
 }
 
-/**
- * ScrollToTop atom - Botão flutuante para voltar ao topo da página
- * Aparece quando o usuário rola a página para baixo
- */
 const ScrollToTop: React.FC<ScrollToTopProps> = ({ threshold = 100 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
-  // Detecta quando o usuário rola a página
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: threshold,

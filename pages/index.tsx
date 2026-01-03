@@ -189,8 +189,6 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
       },
     };
   } catch (error) {
-    console.error('Error in getServerSideProps:', error);
-    
     return {
       props: {
         initialPharmacies: [],

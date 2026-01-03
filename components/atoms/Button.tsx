@@ -2,14 +2,8 @@ import React from 'react';
 import MuiButton, { ButtonProps as MuiButtonProps } from '@mui/material/Button';
 
 export interface ButtonProps extends MuiButtonProps {
-  // Extend with custom props if needed
 }
 
-/**
- * Button atom - wrapper do MUI Button
- * Componente básico de botão seguindo Material Design
- * Otimizado para mobile com touch targets adequados
- */
 const Button: React.FC<ButtonProps> = (props) => {
   return (
     <MuiButton 
