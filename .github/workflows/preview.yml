@@ -43,8 +43,15 @@ jobs:
           npm version $PREVIEW_VERSION --no-git-tag-version
           echo "VERSION=$PREVIEW_VERSION" >> $GITHUB_ENV
       
-      - name: Build project
-        run: npm run build
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+      
+      - name: Build project with Vercel
+        run: vercel build
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       
       - name: Deploy to Vercel (Preview)
         uses: amondnet/vercel-action@v41.1.4
