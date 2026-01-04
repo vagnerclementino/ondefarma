@@ -23,8 +23,6 @@ const nextConfig = {
     NEXT_PUBLIC_APP_VERSION: version,
     NEXT_PUBLIC_BUILD_HASH: buildHash,
   },
-  // Optimize production builds
-  swcMinify: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? {
       exclude: ['error', 'warn'],
