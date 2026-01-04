@@ -66,19 +66,7 @@ interface MarkdownContentProps {
 export default function MarkdownContent({ content }: MarkdownContentProps) {
   return (
     <StyledMarkdown>
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        components={{
-          a: ({ node, ...props }) => {
-            const { href, children } = props;
-            return (
-              <Link href={href || '#'} target="_blank" rel="noopener noreferrer">
-                {children}
-              </Link>
-            );
-          },
-        }}
-      >
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>
         {content}
       </ReactMarkdown>
     </StyledMarkdown>

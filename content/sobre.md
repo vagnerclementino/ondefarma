@@ -34,13 +34,13 @@ desnecessárias:
 
 Decidi criar este site para resolver esses problemas:
 
-✅ **Interface Web Moderna**: Acessível de qualquer dispositivo, especialmente smartphones  
-✅ **Filtros Inteligentes**: Busca por estado, cidade e bairro  
-✅ **Sistema de Favoritos**: Salve suas farmácias preferidas para acesso rápido  
-✅ **Dados Atualizados**: Importados diretamente da fonte oficial do governo  
-✅ **100% Gratuito**: Sem anúncios, sem custos, sem coleta de dados pessoais
+- **Interface Web Moderna**: Acessível de qualquer dispositivo, especialmente smartphones  
+- **Filtros Inteligentes**: Busca por estado, cidade e bairro  
+- **Sistema de Favoritos**: Salve suas farmácias preferidas para acesso rápido  
+- **Dados Atualizados**: Importados diretamente da fonte oficial do governo  
+- **100% Gratuito**: Sem anúncios, sem custos, sem coleta de dados pessoais
 
-## 🎯 Objetivo do Projeto
+## Objetivo do Projeto
 
 O objetivo principal é **democratizar o acesso à informação pública**, tornando
 mais fácil para qualquer cidadão brasileiro encontrar farmácias credenciadas no
@@ -53,7 +53,7 @@ Este projeto é:
 - **Sem Fins Lucrativos**: Criado para ajudar a comunidade
 - **Focado em Acessibilidade**: Design mobile-first e interface intuitiva
 
-## 🚀 Tecnologia
+## Tecnologia
 
 O site foi construído com tecnologias modernas e eficientes:
 
@@ -62,7 +62,7 @@ O site foi construído com tecnologias modernas e eficientes:
 - **TypeScript**: Código mais seguro e manutenível
 - **Server-Side Rendering**: Carregamento rápido e otimizado para SEO
 
-## 🤝 Como Você Pode Ajudar
+## Como Você Pode Ajudar
 
 Este é um projeto open source e toda ajuda é bem-vinda:
 
@@ -71,7 +71,7 @@ Este é um projeto open source e toda ajuda é bem-vinda:
 - **Contribua com Código**: Desenvolvedores são bem-vindos para contribuir
 - **Compartilhe**: Ajude outras pessoas divulgando o projeto
 
-## ⚠️ Importante
+## Importante
 
 **Este site não é oficial do Governo do Brasil.** É um projeto independente
 *criado para facilitar o acesso a informações públicas. Os dados são obtidos de
@@ -81,7 +81,7 @@ Para informações oficiais, sempre consulte:
 - [Portal do Ministério da Saúde](https://www.gov.br/saude/pt-br/acesso-a-informacao/acoes-e-programas/farmacia-popular)
 - Disque Saúde: 136
 
-## 👨‍💻 Sobre o Autor
+## Sobre o Autor
 
 Sou **Vagner Clementino**, desenvolvedor de software com mais de 10 anos de
 experiência. Acredito que tecnologia deve ser usada para resolver problemas
@@ -91,12 +91,4 @@ Este projeto é minha forma de contribuir para a sociedade, usando minhas
 habilidades técnicas para tornar informações públicas mais acessíveis a todos os
 brasileiros.
 
-**Contato:**
-- 🌐 Website: [clementino.me](https://www.clementino.me)
-- 💼 LinkedIn: [vclementino](https://www.linkedin.com/in/vclementino)
-- 🐦 Twitter: [@vclementino](https://www.twitter.com/vclementino)
-- 💻 GitHub: [@vagnerclementino](https://www.github.com/vagnerclementino)
-
 ---
-
-**Feito com ❤️**

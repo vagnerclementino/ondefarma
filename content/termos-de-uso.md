@@ -58,3 +58,4 @@ Para informações oficiais sobre o Programa Farmácia Popular, acesse:
 
 - **Site oficial:** [Portal do Ministério da Saúde](https://www.gov.br/saude/pt-br/acesso-a-informacao/acoes-e-programas/farmacia-popular)
 - **Telefone:** 136 (Disque Saúde)
+---
