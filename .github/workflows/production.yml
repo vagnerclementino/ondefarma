@@ -43,9 +43,12 @@ jobs:
           TAG_VERSION=${GITHUB_REF#refs/tags/v}
           npm version $TAG_VERSION --no-git-tag-version
           echo "VERSION=$TAG_VERSION" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_BUILD_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
       
       - name: Build project
         run: npm run build
+        env:
+          NEXT_PUBLIC_BUILD_HASH: ${{ env.NEXT_PUBLIC_BUILD_HASH }}
       
       - name: Deploy to Vercel (Production)
         uses: amondnet/vercel-action@v41.1.4

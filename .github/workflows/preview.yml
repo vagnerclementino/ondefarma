@@ -76,7 +76,7 @@ jobs:
         with:
           script: |
             const previewUrl = '${{ steps.vercel-deploy.outputs.preview-url }}';
-            const comment = `## 🚀 Preview Deployment
+            const commentBody = `## 🚀 Preview Deployment
             
             Your changes have been deployed to a preview environment:
             
@@ -84,9 +84,28 @@ jobs:
             
             This preview will be updated automatically when you push new commits to this PR.`;
             
-            github.rest.issues.createComment({
+            const comments = await github.rest.issues.listComments({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: comment
             });
+            
+            const existingComment = comments.data.find(comment => 
+              comment.body.includes('## 🚀 Preview Deployment')
+            );
+            
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                comment_id: existingComment.id,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: commentBody
+              });
+            } else {
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: commentBody
+              });
+            }
