@@ -3,7 +3,6 @@ name: Production Deploy
 on:
   push:
     tags: ['v*']
-    branches: ['fix/production-build-hash']
 
 jobs:
   production:
