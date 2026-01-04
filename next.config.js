@@ -4,7 +4,9 @@ const { execSync } = require('child_process');
 // Obter o hash do commit atual
 let buildHash = 'dev';
 try {
-  buildHash = execSync('git rev-parse --short HEAD').toString().trim();
+  // Usar variável de ambiente do Vercel se disponível
+  buildHash = process.env.VERCEL_GIT_COMMIT_SHA?.substring(0, 7) || 
+             execSync('git rev-parse --short HEAD').toString().trim();
 } catch (error) {
   console.warn('Não foi possível obter o hash do commit, usando "dev"');
 }
