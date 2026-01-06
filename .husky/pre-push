@@ -3,3 +3,7 @@ npm run lint || exit 1
 
 echo "🧪 Running tests..."
 npm test || exit 1
+
+echo "📝 Running spell check..."
+npx cspell link add @cspell/dict-pt-br
+npx cspell --no-must-find-files --config ./cspell.json '**/*.md' || exit 1

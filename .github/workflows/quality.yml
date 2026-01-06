@@ -21,6 +21,10 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm test
+      - name: Run spell check
+        run: |
+          npx cspell link add @cspell/dict-pt-br
+          npx cspell --no-must-find-files --config ./cspell.json '**/*.md'
   
   e2e:
     runs-on: ubuntu-latest
