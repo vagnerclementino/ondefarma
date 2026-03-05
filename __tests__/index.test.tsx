@@ -3,7 +3,6 @@ import Home from '@/pages/index';
 import '../__mocks__/pharmacy-fetch.mock';
 import '@testing-library/jest-dom';
 
-// Mock SWR hooks
 jest.mock('@/hooks/usePharmacies', () => ({
   usePharmacies: jest.fn(() => ({
     pharmacies: [
@@ -38,7 +37,6 @@ jest.mock('@/hooks/usePharmacies', () => ({
   })),
 }));
 
-// Mock data for testing
 const mockPharmacies = [
   {
     name: 'FARMACIA QUEIROZ CANEDO LTDA',
@@ -65,21 +63,17 @@ describe('Home', () => {
     });
     expect(heading).toBeInTheDocument();
   });
-  
+
   it('renders responsive filter panel with all filter options', () => {
     render(<Home {...mockProps} />);
-    // Check for filter labels - these are part of the responsive design
-    expect(screen.getByLabelText(/Estado/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Cidade/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Bairro/i)).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Estado' })).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Cidade' })).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Bairro' })).toBeInTheDocument();
   });
-  
-  it("renders the favorites button in header", () => {
+
+  it('renders the favorites navigation link in header', () => {
     render(<Home {...mockProps} />);
-    // Check that the responsive header includes the favorites button
-    // Use getAllByRole since there are multiple buttons with "Favoritos" text
-    const favoritesButtons = screen.getAllByRole('button', { name: /favoritos/i });
-    // Should have at least one favorites button (in header)
-    expect(favoritesButtons.length).toBeGreaterThan(0);
+    const favoritesLink = screen.getByRole('link', { name: /favoritos/i });
+    expect(favoritesLink).toBeInTheDocument();
   });
 });

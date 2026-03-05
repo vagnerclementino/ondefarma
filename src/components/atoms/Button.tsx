@@ -1,25 +1,18 @@
 import React from 'react';
-import MuiButton, { ButtonProps as MuiButtonProps } from '@mui/material/Button';
+import { Button as ShadButton } from '@/components/ui/button';
 
-export interface ButtonProps extends MuiButtonProps {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'contained' | 'outlined' | 'text';
+  size?: 'small' | 'medium' | 'large';
+  color?: 'primary' | 'secondary';
+  fullWidth?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = (props) => {
-  return (
-    <MuiButton 
-      {...props}
-      sx={{
-        minHeight: { xs: '40px', sm: '44px' },
-        px: { xs: 2, sm: 2.5 },
-        fontSize: { xs: '0.875rem', sm: '0.9375rem' },
-        '&:active': {
-          transform: 'scale(0.98)',
-        },
-        transition: 'transform 0.1s ease-in-out, background-color 0.2s',
-        ...props.sx,
-      }}
-    />
-  );
+const Button: React.FC<ButtonProps> = ({ variant = 'contained', size = 'medium', fullWidth, className, ...props }) => {
+  const shadVariant = variant === 'outlined' ? 'outline' : variant === 'text' ? 'ghost' : 'default';
+  const shadSize = size === 'small' ? 'sm' : size === 'large' ? 'lg' : 'default';
+
+  return <ShadButton {...props} variant={shadVariant} size={shadSize} className={`${fullWidth ? 'w-full' : ''} ${className ?? ''}`.trim()} />;
 };
 
 export default Button;

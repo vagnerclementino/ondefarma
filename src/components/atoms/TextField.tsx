@@ -1,11 +1,10 @@
 import React from 'react';
-import MuiTextField, { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField';
+import { Input } from '@/components/ui/input';
 
-export type TextFieldProps = MuiTextFieldProps & {
-};
+export type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement>;
 
-const TextField: React.FC<TextFieldProps> = (props) => {
-  return <MuiTextField {...props} />;
+const TextField: React.FC<TextFieldProps> = ({ className, ...props }) => {
+  return <Input {...props} className={className} />;
 };
 
 export default TextField;

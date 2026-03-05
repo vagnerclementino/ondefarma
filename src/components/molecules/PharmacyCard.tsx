@@ -1,12 +1,7 @@
 import React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { IconButton } from '@/components/atoms';
+import { Heart } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Pharmacy } from '@/types/pharmacy';
 
 export interface PharmacyCardProps {
@@ -20,115 +15,31 @@ const PharmacyCard: React.FC<PharmacyCardProps> = ({
   isFavorite = false,
   onFavoriteToggle,
 }) => {
-  const handleFavoriteClick = () => {
-    if (onFavoriteToggle) {
-      onFavoriteToggle(pharmacy.cnpj);
-    }
-  };
-
   return (
-    <Card
-      data-testid="pharmacy-card"
-      data-cnpj={pharmacy.cnpj}
-      sx={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        '&:hover': {
-          transform: 'translateY(-8px)',
-          boxShadow: 6,
-        },
-        '&:active': {
-          transform: 'translateY(-2px)',
-          boxShadow: 3,
-        },
-      }}
-    >
-      <CardContent sx={{ 
-        flexGrow: 1,
-        p: { xs: 1.5, sm: 2 },
-      }}>
-        <Typography 
-          variant="h6" 
-          component="h2" 
-          gutterBottom 
-          color="primary"
-          sx={{ 
-            fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' },
-            lineHeight: 1.3,
-          }}
-        >
-          {pharmacy.name}
-        </Typography>
-        
-        <Box sx={{ mt: { xs: 1, sm: 2 } }}>
-          <Typography 
-            variant="body2" 
-            color="text.secondary" 
-            gutterBottom
-            sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
-          >
-            <strong>Endereço:</strong> {pharmacy.address}
-          </Typography>
-          
-          <Typography 
-            variant="body2" 
-            color="text.secondary" 
-            gutterBottom
-            sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
-          >
-            <strong>Bairro:</strong> {pharmacy.neighborhood}
-          </Typography>
-          
-          {pharmacy.city && (
-            <Typography 
-              variant="body2" 
-              color="text.secondary" 
-              gutterBottom
-              sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
-            >
-              <strong>Cidade:</strong> {pharmacy.city}
-            </Typography>
-          )}
-          
-          {pharmacy.state && (
-            <Typography 
-              variant="body2" 
-              color="text.secondary"
-              sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
-            >
-              <strong>Estado:</strong> {pharmacy.state}
-            </Typography>
-          )}
-        </Box>
+    <Card data-testid="pharmacy-card" data-cnpj={pharmacy.cnpj} className="pharmacy-card">
+      <CardHeader className="pb-2">
+        <CardTitle className="pharmacy-card-title">{pharmacy.name}</CardTitle>
+      </CardHeader>
+
+      <CardContent className="pharmacy-card-body pt-0">
+        <p className="pharmacy-card-meta"><strong>Endereço:</strong> {pharmacy.address}</p>
+        <p className="pharmacy-card-meta"><strong>Bairro:</strong> {pharmacy.neighborhood}</p>
+        {pharmacy.city && <p className="pharmacy-card-meta"><strong>Cidade:</strong> {pharmacy.city}</p>}
+        {pharmacy.state && <p className="pharmacy-card-meta"><strong>Estado:</strong> {pharmacy.state}</p>}
       </CardContent>
 
-      <CardActions sx={{ 
-        justifyContent: 'flex-end', 
-        px: { xs: 1.5, sm: 2 },
-        pb: { xs: 1.5, sm: 2 },
-      }}>
-        <IconButton
+      <CardFooter className="pharmacy-card-actions">
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
           aria-label={isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
-          onClick={handleFavoriteClick}
-          color={isFavorite ? 'secondary' : 'default'}
-          size="medium"
-          sx={{
-            minWidth: { xs: '44px', sm: '48px' },
-            minHeight: { xs: '44px', sm: '48px' },
-            '& .MuiSvgIcon-root': {
-              fontSize: { xs: '1.25rem', sm: '1.5rem' },
-            },
-            '&:active': {
-              transform: 'scale(0.95)',
-            },
-            transition: 'transform 0.1s ease-in-out',
-          }}
+          onClick={() => onFavoriteToggle?.(pharmacy.cnpj)}
+          className={isFavorite ? 'text-red-600 hover:text-red-700' : 'text-muted-foreground'}
         >
-          {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-        </IconButton>
-      </CardActions>
+          <Heart className={`h-5 w-5 ${isFavorite ? 'fill-current' : ''}`} />
+        </Button>
+      </CardFooter>
     </Card>
   );
 };

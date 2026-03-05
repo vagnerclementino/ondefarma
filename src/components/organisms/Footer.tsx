@@ -1,8 +1,4 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 import NextLink from 'next/link';
 import { DataUpdateInfo } from '@/components/atoms';
 
@@ -11,73 +7,29 @@ export interface FooterProps {
   buildHash?: string;
 }
 
-const Footer: React.FC<FooterProps> = ({ 
+const Footer: React.FC<FooterProps> = ({
   version = process.env.NEXT_PUBLIC_APP_VERSION || '1.0.0',
-  buildHash = process.env.NEXT_PUBLIC_BUILD_HASH || 'dev'
+  buildHash = process.env.NEXT_PUBLIC_BUILD_HASH || 'dev',
 }) => {
   return (
-    <Box
-      component="footer"
-      sx={{
-        py: { xs: 1, sm: 3 },
-        px: 2,
-        mt: 'auto',
-        backgroundColor: (theme) =>
-          theme.palette.mode === 'light'
-            ? theme.palette.grey[200]
-            : theme.palette.grey[800],
-      }}
-    >
-      <Container maxWidth="lg">
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
-            justifyContent: 'space-between',
-            alignItems: { xs: 'center', sm: 'flex-start' },
-            gap: { xs: 0.5, sm: 2 },
-          }}
-        >
-          <Box sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
-            <Typography variant="caption" color="text.secondary" display="block">
-              v{version}
-            </Typography>
-            <Typography variant="caption" color="text.secondary">
-              Build: {buildHash}
-            </Typography>
-          </Box>
+    <footer className="site-footer">
+      <div className="app-container site-footer-inner">
+        <div className="text-xs text-muted-foreground">
+          <p className="m-0">v{version}</p>
+          <p className="m-0">Build: {buildHash}</p>
+        </div>
 
-          <Box sx={{ textAlign: 'center' }}>
-            <DataUpdateInfo />
-          </Box>
+        <DataUpdateInfo />
 
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: { xs: 'center', sm: 'flex-end' },
-              gap: { xs: 0.25, sm: 0.5 },
-            }}
-          >
-            <Box sx={{ display: 'flex', gap: 1 }}>
-              <NextLink href="/sobre" passHref legacyBehavior>
-                <Link color="text.secondary" underline="hover" variant="body2">
-                  Sobre
-                </Link>
-              </NextLink>
-              <NextLink href="/termos-de-uso" passHref legacyBehavior>
-                <Link color="text.secondary" underline="hover" variant="body2">
-                  Termos de Uso
-                </Link>
-              </NextLink>
-            </Box>
-            <Typography variant="caption" color="text.secondary" fontWeight="bold">
-              Site não oficial do Governo do Brasil
-            </Typography>
-          </Box>
-        </Box>
-      </Container>
-    </Box>
+        <div className="flex flex-col items-center sm:items-end gap-1">
+          <div className="flex items-center gap-3 text-sm text-muted-foreground">
+            <NextLink href="/sobre" className="hover:underline">Sobre</NextLink>
+            <NextLink href="/termos-de-uso" className="hover:underline">Termos de Uso</NextLink>
+          </div>
+          <p className="m-0 text-xs font-semibold text-muted-foreground">Site não oficial do Governo do Brasil</p>
+        </div>
+      </div>
+    </footer>
   );
 };
 

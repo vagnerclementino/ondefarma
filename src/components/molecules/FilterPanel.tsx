@@ -1,25 +1,25 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import ClearIcon from '@mui/icons-material/Clear';
-import { Select } from '@/components/atoms';
+import { X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export interface FilterPanelProps {
   selectedState: string;
   states: string[];
   onStateChange: (state: string) => void;
-  
   selectedCity: string;
   cities: string[];
   onCityChange: (city: string) => void;
-  
   selectedNeighborhood: string;
   neighborhoods: string[];
   onNeighborhoodChange: (neighborhood: string) => void;
-  
   loadingCities?: boolean;
   loadingNeighborhoods?: boolean;
 }
@@ -38,123 +38,80 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   loadingNeighborhoods = false,
 }) => {
   return (
-    <Box
-      sx={{
-        mb: { xs: 2, sm: 3 },
-        p: { xs: 1.5, sm: 2, md: 2.5 },
-        backgroundColor: 'background.paper',
-        borderRadius: 1,
-        boxShadow: 1,
-        transition: 'box-shadow 0.3s ease-in-out',
-        '&:hover': {
-          boxShadow: 2,
-        },
-      }}
-    >
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
-          gap: { xs: 1.5, sm: 2 },
-        }}
-      >
-        <FormControl fullWidth size="small">
-          <InputLabel id="state-select-label">Estado</InputLabel>
-          <Select
-            labelId="state-select-label"
-            id="state-select"
-            data-testid="state-select"
-            value={selectedState}
-            label="Estado"
-            onChange={(e) => onStateChange(e.target.value as string)}
-          >
-            <MenuItem value="">
-              <em>Todos os estados</em>
-            </MenuItem>
-            {states.map((state) => (
-              <MenuItem key={state} value={state}>
-                {state}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl 
-          fullWidth 
-          size="small" 
-          disabled={!selectedState || loadingCities}
-          sx={{
-            transition: 'opacity 0.3s ease-in-out',
-            opacity: !selectedState || loadingCities ? 0.6 : 1,
-          }}
-        >
-          <InputLabel id="city-select-label">Cidade</InputLabel>
-          <Select
-            labelId="city-select-label"
-            id="city-select"
-            data-testid="city-select"
-            value={selectedCity}
-            label="Cidade"
-            onChange={(e) => onCityChange(e.target.value as string)}
-          >
-            <MenuItem value="">
-              <em>{loadingCities ? 'Carregando...' : 'Todas as cidades'}</em>
-            </MenuItem>
-            {cities.map((city) => (
-              <MenuItem key={city} value={city}>
-                {city}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <Box sx={{ position: 'relative' }}>
-          <FormControl 
-            fullWidth 
-            size="small" 
-            disabled={!selectedCity || loadingNeighborhoods}
-            sx={{
-              transition: 'opacity 0.3s ease-in-out',
-              opacity: !selectedCity || loadingNeighborhoods ? 0.6 : 1,
-            }}
-          >
-            <InputLabel id="neighborhood-select-label">Bairro</InputLabel>
-            <Select
-              labelId="neighborhood-select-label"
-              id="neighborhood-select"
-              data-testid="neighborhood-select"
-              value={selectedNeighborhood}
-              label="Bairro"
-              onChange={(e) => onNeighborhoodChange(e.target.value as string)}
-            >
-              <MenuItem value="">
-                <em>{loadingNeighborhoods ? 'Carregando...' : 'Todos os bairros'}</em>
-              </MenuItem>
-              {neighborhoods.map((neighborhood) => (
-                <MenuItem key={neighborhood} value={neighborhood}>
-                  {neighborhood}
-                </MenuItem>
+    <section className="surface-card mb-4 p-4 sm:p-5">
+      <div className="form-grid">
+        <div className="form-field">
+          <Label htmlFor="state-select">Estado</Label>
+          <Select value={selectedState || '__all'} onValueChange={(v) => onStateChange(v === '__all' ? '' : v)}>
+            <SelectTrigger id="state-select" data-testid="state-select" aria-label="Estado">
+              <SelectValue placeholder="Todos os estados" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__all">Todos os estados</SelectItem>
+              {states.map((state) => (
+                <SelectItem key={state} value={state}>
+                  {state}
+                </SelectItem>
               ))}
-            </Select>
-          </FormControl>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="form-field">
+          <Label htmlFor="city-select">Cidade</Label>
+          <Select
+            value={selectedCity || '__all'}
+            onValueChange={(v) => onCityChange(v === '__all' ? '' : v)}
+            disabled={!selectedState || loadingCities}
+          >
+            <SelectTrigger id="city-select" data-testid="city-select" aria-label="Cidade">
+              <SelectValue placeholder={loadingCities ? 'Carregando...' : 'Todas as cidades'} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__all">{loadingCities ? 'Carregando...' : 'Todas as cidades'}</SelectItem>
+              {cities.map((city) => (
+                <SelectItem key={city} value={city}>
+                  {city}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="form-field relative">
+          <Label htmlFor="neighborhood-select">Bairro</Label>
+          <Select
+            value={selectedNeighborhood || '__all'}
+            onValueChange={(v) => onNeighborhoodChange(v === '__all' ? '' : v)}
+            disabled={!selectedCity || loadingNeighborhoods}
+          >
+            <SelectTrigger id="neighborhood-select" data-testid="neighborhood-select" aria-label="Bairro">
+              <SelectValue placeholder={loadingNeighborhoods ? 'Carregando...' : 'Todos os bairros'} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__all">{loadingNeighborhoods ? 'Carregando...' : 'Todos os bairros'}</SelectItem>
+              {neighborhoods.map((neighborhood) => (
+                <SelectItem key={neighborhood} value={neighborhood}>
+                  {neighborhood}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           {selectedNeighborhood && (
-            <IconButton
+            <Button
+              type="button"
+              size="icon"
+              variant="ghost"
               data-testid="clear-neighborhood"
-              size="small"
               onClick={() => onNeighborhoodChange('')}
-              sx={{
-                position: 'absolute',
-                right: 32,
-                top: '50%',
-                transform: 'translateY(-50%)',
-              }}
+              className="absolute right-1 top-7 h-8 w-8"
             >
-              <ClearIcon fontSize="small" />
-            </IconButton>
+              <X className="h-4 w-4" />
+            </Button>
           )}
-        </Box>
-      </Box>
-      </Box>
+        </div>
+      </div>
+    </section>
   );
 };
 
