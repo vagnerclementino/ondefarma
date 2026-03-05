@@ -57,7 +57,7 @@ describe('Favorites', () => {
     
     cy.get('[data-testid="neighborhood-select"]').should('not.be.disabled');
     cy.get('[data-testid="neighborhood-select"]').click();
-    cy.get('li[role="option"]').not(':contains("Todos os bairros")').first().click();
+    cy.get('[role="option"]').not(':contains("Todos os bairros")').first().click();
     
     cy.get('[data-testid="pharmacy-card"]', { timeout: 10000 }).should('exist');
     
@@ -84,7 +84,7 @@ describe('Favorites', () => {
       .find('[aria-label="Adicionar aos favoritos"]')
       .click();
     
-    cy.contains('a', 'Favoritos').click();
+    cy.get('a[aria-label="Favoritos"]').click();
     cy.url().should('include', '/favorites');
     
     cy.get('[data-testid="pharmacy-card"]', { timeout: 10000 }).should('exist');

@@ -10,7 +10,7 @@ describe('Filter and Favorite Pharmacy', () => {
     
     cy.get('[data-testid="neighborhood-select"]', { timeout: 10000 }).should('not.be.disabled');
     cy.get('[data-testid="neighborhood-select"]').click();
-    cy.get('li[role="option"]').contains('CASTELO').click({ force: true });
+    cy.get('[role="option"]').contains('CASTELO').click({ force: true });
     
     cy.url().should('include', 'neighborhood=CASTELO');
     cy.get('[data-testid="pharmacy-card"]', { timeout: 10000 }).should('exist');
@@ -34,7 +34,7 @@ describe('Filter and Favorite Pharmacy', () => {
     
     cy.log('Navigating to favorites page');
     
-    cy.contains('a', 'Favoritos').click();
+    cy.get('a[aria-label="Favoritos"]').click();
     cy.url().should('include', '/favorites');
     
     cy.log('Verifying pharmacy on favorites page');
