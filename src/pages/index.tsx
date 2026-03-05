@@ -34,6 +34,8 @@ export default function Home({
   initialSelectedNeighborhood,
   error: initialError,
 }: HomeProps) {
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   const [selectedState, setSelectedState] = useState<string>(initialSelectedState);
   const [selectedCity, setSelectedCity] = useState<string>(initialSelectedCity);
   const [selectedNeighborhood, setSelectedNeighborhood] = useState<string>(initialSelectedNeighborhood);
@@ -81,6 +83,18 @@ export default function Home({
 
   const error = initialError || pharmaciesError;
 
+  const handleFavoriteToggle = (cnpj: string) => {
+    const isCurrentlyFavorite = favorites.includes(cnpj);
+    toggleFavorite(cnpj);
+
+    setSnackbarMessage(
+      isCurrentlyFavorite
+        ? 'Farmácia removida dos favoritos'
+        : 'Farmácia adicionada aos favoritos'
+    );
+    setSnackbarOpen(true);
+  };
+
   useEffect(() => {
     if (selectedCity && cities.length > 0 && !cities.includes(selectedCity)) {
       setSelectedCity('');
@@ -103,6 +117,12 @@ export default function Home({
     const newUrl = queryString ? `/?${queryString}` : '/';
     window.history.replaceState({}, '', newUrl);
   }, [selectedState, selectedCity, selectedNeighborhood]);
+
+  useEffect(() => {
+    if (!snackbarOpen) return;
+    const t = setTimeout(() => setSnackbarOpen(false), 3000);
+    return () => clearTimeout(t);
+  }, [snackbarOpen]);
 
   return (
     <div className="page-shell">
@@ -138,9 +158,16 @@ export default function Home({
           pharmacies={pharmacies.length ? pharmacies : initialPharmacies}
           isLoading={isLoadingPharmacies}
           favoritePharmacies={favorites}
-          onFavoriteToggle={toggleFavorite}
+          onFavoriteToggle={handleFavoriteToggle}
         />
       </main>
+      {snackbarOpen && (
+        <div className="fixed bottom-4 left-1/2 z-50 w-[min(92vw,420px)] -translate-x-1/2">
+          <Alert className="alert-success border-green-200">
+            <AlertDescription>{snackbarMessage}</AlertDescription>
+          </Alert>
+        </div>
+      )}
       <Footer />
       <ScrollToTop />
     </div>
