@@ -18,6 +18,9 @@ interface HomeProps {
   initialStates: string[];
   initialCities: string[];
   initialNeighborhoods: string[];
+  initialSelectedState: string;
+  initialSelectedCity: string;
+  initialSelectedNeighborhood: string;
   error?: string;
 }
 
@@ -26,31 +29,55 @@ export default function Home({
   initialStates,
   initialCities,
   initialNeighborhoods,
+  initialSelectedState,
+  initialSelectedCity,
+  initialSelectedNeighborhood,
   error: initialError,
 }: HomeProps) {
-  const [selectedState, setSelectedState] = useState<string>('MG');
-  const [selectedCity, setSelectedCity] = useState<string>('BELO HORIZONTE');
-  const [selectedNeighborhood, setSelectedNeighborhood] = useState<string>('');
+  const [selectedState, setSelectedState] = useState<string>(initialSelectedState);
+  const [selectedCity, setSelectedCity] = useState<string>(initialSelectedCity);
+  const [selectedNeighborhood, setSelectedNeighborhood] = useState<string>(initialSelectedNeighborhood);
 
   const { favorites, toggleFavorite, error: favoritesError } = useFavorites();
+
+  const shouldUseInitialData =
+    selectedState === initialSelectedState &&
+    selectedCity === initialSelectedCity &&
+    selectedNeighborhood === initialSelectedNeighborhood;
 
   const {
     pharmacies,
     isLoading: isLoadingPharmacies,
     error: pharmaciesError,
-  } = usePharmacies(selectedState, selectedCity, selectedNeighborhood);
+  } = usePharmacies(
+    selectedState,
+    selectedCity,
+    selectedNeighborhood,
+    1,
+    50,
+    shouldUseInitialData ? { data: initialPharmacies } : undefined
+  );
 
-  const { states } = useStates();
+  const { states } = useStates(initialStates);
 
   const {
     cities,
     isLoading: isLoadingCities,
-  } = useCities(selectedState);
+  } = useCities(
+    selectedState,
+    selectedState === initialSelectedState ? initialCities : undefined
+  );
 
   const {
     neighborhoods,
     isLoading: isLoadingNeighborhoods,
-  } = useNeighborhoods(selectedCity, selectedState);
+  } = useNeighborhoods(
+    selectedCity,
+    selectedState,
+    selectedCity === initialSelectedCity && selectedState === initialSelectedState
+      ? initialNeighborhoods
+      : undefined
+  );
 
   const error = initialError || pharmaciesError;
 
@@ -146,6 +173,9 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
         initialStates: states,
         initialCities: cities,
         initialNeighborhoods: neighborhoods,
+        initialSelectedState: state as string,
+        initialSelectedCity: city as string,
+        initialSelectedNeighborhood: neighborhood as string,
       },
     };
   } catch {
@@ -155,6 +185,9 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
         initialStates: [],
         initialCities: [],
         initialNeighborhoods: [],
+        initialSelectedState: 'MG',
+        initialSelectedCity: 'BELO HORIZONTE',
+        initialSelectedNeighborhood: '',
         error: 'Erro ao carregar dados iniciais',
       },
     };

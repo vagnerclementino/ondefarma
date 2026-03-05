@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { readPharmaciesFromCSV } from '@/lib/pharmacyData';
-import { Pharmacy } from '@/types/pharmacy';
+import { getPharmaciesByCnpjs } from '@/lib/pharmacyData';
 
 export default async function handler(
   req: NextApiRequest,
@@ -21,11 +20,7 @@ export default async function handler(
       return res.status(200).json({ data: [] });
     }
 
-    const allPharmacies = await readPharmaciesFromCSV({});
-
-    const pharmacies = allPharmacies.filter((pharmacy: Pharmacy) =>
-      cnpjs.includes(pharmacy.cnpj)
-    );
+    const pharmacies = await getPharmaciesByCnpjs(cnpjs);
 
     return res.status(200).json({ data: pharmacies });
   } catch (error) {

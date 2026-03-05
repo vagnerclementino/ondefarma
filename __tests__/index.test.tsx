@@ -53,6 +53,9 @@ const mockProps = {
   initialStates: ['MG'],
   initialCities: ['BELO HORIZONTE'],
   initialNeighborhoods: ['CENTRO'],
+  initialSelectedState: 'MG',
+  initialSelectedCity: 'BELO HORIZONTE',
+  initialSelectedNeighborhood: '',
 };
 
 describe('Home', () => {

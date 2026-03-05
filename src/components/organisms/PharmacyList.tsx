@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PharmacyCard } from '@/components/molecules';
@@ -17,6 +17,8 @@ const PharmacyList: React.FC<PharmacyListProps> = ({
   favoritePharmacies = [],
   onFavoriteToggle,
 }) => {
+  const favoriteSet = useMemo(() => new Set(favoritePharmacies), [favoritePharmacies]);
+
   if (isLoading) {
     return (
       <div className="grid-cards">
@@ -49,7 +51,7 @@ const PharmacyList: React.FC<PharmacyListProps> = ({
         <PharmacyCard
           key={pharmacy.cnpj}
           pharmacy={pharmacy}
-          isFavorite={favoritePharmacies.includes(pharmacy.cnpj)}
+          isFavorite={favoriteSet.has(pharmacy.cnpj)}
           onFavoriteToggle={onFavoriteToggle}
         />
       ))}
