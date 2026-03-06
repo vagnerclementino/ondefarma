@@ -162,8 +162,8 @@ export default function Home({
         />
       </main>
       {snackbarOpen && (
-        <div className="fixed bottom-4 left-1/2 z-50 w-[min(92vw,420px)] -translate-x-1/2">
-          <Alert className="alert-success border-green-200">
+        <div className="fixed bottom-4 left-1/2 z-50 w-[min(92vw,420px)] -translate-x-1/2" aria-live="polite">
+          <Alert className="favorite-toast">
             <AlertDescription>{snackbarMessage}</AlertDescription>
           </Alert>
         </div>

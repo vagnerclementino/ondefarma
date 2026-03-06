@@ -24,10 +24,10 @@ const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' })
         <nav className="header-actions" aria-label="Navegação principal">
           <Button
             asChild
-            variant="outline"
+            variant="ghost"
             className={cn(
-              'border-white/90 bg-transparent text-white hover:bg-white/15 hover:text-white',
-              isActive('/') && 'bg-white text-[#0847aa] hover:bg-white/95 hover:text-[#0847aa]'
+              'border border-[#0b4aa8]/20 bg-white text-[#0b4aa8] shadow-sm hover:bg-[#e9f3ff] hover:text-[#0b4aa8]',
+              isActive('/') && 'bg-[#0b4aa8] text-white hover:bg-[#0b4aa8] hover:text-white'
             )}
           >
             <Link href="/" aria-label="Início">
@@ -38,10 +38,10 @@ const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' })
 
           <Button
             asChild
-            variant="outline"
+            variant="ghost"
             className={cn(
-              'border-white/90 bg-transparent text-white hover:bg-white/15 hover:text-white',
-              isActive('/favorites') && 'bg-white text-[#0847aa] hover:bg-white/95 hover:text-[#0847aa]'
+              'border border-[#0b4aa8]/20 bg-white text-[#0b4aa8] shadow-sm hover:bg-[#e9f3ff] hover:text-[#0b4aa8]',
+              isActive('/favorites') && 'bg-[#0b4aa8] text-white hover:bg-[#0b4aa8] hover:text-white'
             )}
           >
             <Link href="/favorites" aria-label="Favoritos">

@@ -235,19 +235,21 @@
 .grid-cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .pharmacy-card {
   display: flex;
   flex-direction: column;
   height: 100%;
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 6px 18px rgba(12, 34, 67, 0.09);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .pharmacy-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(12, 34, 67, 0.12);
+  box-shadow: 0 14px 30px rgba(12, 34, 67, 0.16);
 }
 
 .pharmacy-card-body {
@@ -335,6 +337,25 @@
   right: 1rem;
   bottom: 1rem;
   z-index: 40;
+}
+
+.favorite-toast {
+  background: #effcf3;
+  border-color: #bfe8cc;
+  color: #126239;
+  box-shadow: 0 10px 24px rgba(12, 34, 67, 0.16);
+}
+
+.route-skeleton-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.route-skeleton-overlay.is-visible {
+  opacity: 1;
 }
 
 .skeleton {
