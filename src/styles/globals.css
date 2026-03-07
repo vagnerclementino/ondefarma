@@ -244,11 +244,14 @@
   height: 100%;
   border: 1px solid hsl(var(--border));
   box-shadow: 0 6px 18px rgba(12, 34, 67, 0.09);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transform: translateY(0) scale(1);
+  will-change: transform, box-shadow;
 }
 
-.pharmacy-card:hover {
-  transform: translateY(-4px);
+.pharmacy-card:hover,
+.pharmacy-card:focus-within,
+.pharmacy-card:active {
+  animation: card-bounce 260ms ease-out;
   box-shadow: 0 14px 30px rgba(12, 34, 67, 0.16);
 }
 
@@ -346,6 +349,26 @@
   box-shadow: 0 10px 24px rgba(12, 34, 67, 0.16);
 }
 
+@keyframes card-bounce {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.01);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pharmacy-card:hover,
+  .pharmacy-card:focus-within,
+  .pharmacy-card:active {
+    animation: none;
+  }
+}
+
 .route-skeleton-overlay {
   position: fixed;
   inset: 0;
@@ -392,6 +415,8 @@
 @media (max-width: 600px) {
   .grid-cards {
     grid-template-columns: 1fr;
+    gap: 0.9rem;
+    padding-inline: 0.4rem;
   }
 
   .site-header-inner {
