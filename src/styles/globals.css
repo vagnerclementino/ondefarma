@@ -416,7 +416,12 @@
   .grid-cards {
     grid-template-columns: 1fr;
     gap: 0.9rem;
-    padding-inline: 0.4rem;
+    padding-inline: 0.5rem;
+  }
+
+  .grid-cards .pharmacy-card {
+    width: calc(100% - 0.75rem);
+    justify-self: center;
   }
 
   .site-header-inner {
