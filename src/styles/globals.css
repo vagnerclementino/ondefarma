@@ -91,7 +91,8 @@
 
 .page-content {
   flex: 1;
-  padding: 1rem 0 2rem;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
 }
 
 .surface-card {
@@ -414,23 +415,17 @@
 
 @media (max-width: 600px) {
   .filter-panel {
-    max-width: 360px;
-    margin-inline: auto;
+    margin-inline: 0;
   }
 
   .grid-cards {
-    grid-template-columns: minmax(0, 360px);
-    justify-content: center;
-    gap: 0.65rem;
-    padding-inline: 0.25rem;
-  }
-
-  .grid-cards .pharmacy-card {
-    width: 100%;
-    justify-self: center;
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .site-header-inner {
-    min-height: 62px;
+    min-height: 56px;
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 }
