@@ -18,7 +18,7 @@ const PageSkeleton: React.FC = () => {
       </header>
 
       <main className="app-container page-content">
-        <section className="surface-card mb-4 p-4 sm:p-5">
+        <section className="surface-card filter-panel mb-4 p-4 sm:p-5">
           <div className="form-grid">
             <Skeleton className="h-11 w-full" />
             <Skeleton className="h-11 w-full" />

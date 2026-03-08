@@ -38,7 +38,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   loadingNeighborhoods = false,
 }) => {
   return (
-    <section className="surface-card mb-4 p-4 sm:p-5">
+    <section className="surface-card filter-panel mb-4 p-4 sm:p-5">
       <div className="form-grid">
         <div className="form-field">
           <Label htmlFor="state-select">Estado</Label>

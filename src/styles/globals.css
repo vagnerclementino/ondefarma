@@ -413,6 +413,11 @@
 }
 
 @media (max-width: 600px) {
+  .filter-panel {
+    max-width: 360px;
+    margin-inline: auto;
+  }
+
   .grid-cards {
     grid-template-columns: minmax(0, 360px);
     justify-content: center;
