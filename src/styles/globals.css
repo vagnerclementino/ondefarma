@@ -263,7 +263,7 @@
 
 .pharmacy-card-title {
   margin: 0 0 0.7rem;
-  color: hsl(var(--primary));
+  color: #0056b3;
   font-size: 1.05rem;
   line-height: 1.3;
 }
