@@ -73,9 +73,7 @@ Este é um projeto open source e toda ajuda é bem-vinda:
 
 ## Importante
 
-**Este site não é oficial do Governo do Brasil.** É um projeto independente
-*criado para facilitar o acesso a informações públicas. Os dados são obtidos de
-*fontes oficiais, mas podem conter imprecisões ou estar desatualizados.
+**Este site não é oficial do Governo do Brasil.** É um projeto independente criado para facilitar o acesso a informações públicas. Os dados são obtidos de fontes oficiais, mas podem conter imprecisões ou estar desatualizados.
 
 Para informações oficiais, sempre consulte:
 - [Portal do Ministério da Saúde](https://www.gov.br/saude/pt-br/acesso-a-informacao/acoes-e-programas/farmacia-popular)

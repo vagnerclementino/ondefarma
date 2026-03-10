@@ -10,9 +10,7 @@ Programa Farmácia Popular do Governo Federal Brasileiro.
 
 ## 2. Isenção de Responsabilidade
 
-**Este site não é oficial do Governo do Brasil.** Os dados apresentados são
-*obtidos de fontes públicas e podem conter imprecisões, estar desatualizados ou
-*incompletos.
+**Este site não é oficial do Governo do Brasil.** Os dados apresentados são obtidos de fontes públicas e podem conter imprecisões, estar desatualizados ou incompletos.
 
 O autor deste site **não se responsabiliza** por:
 
