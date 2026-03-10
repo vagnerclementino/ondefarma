@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Heart, Home, Pill } from 'lucide-react';
+import { Heart, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -17,7 +18,24 @@ const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' })
     <header className="site-header">
       <div className="app-container site-header-inner">
         <Link href="/" className="brand-link" aria-label="Início">
-          <Pill className="h-7 w-7" />
+          <span className="brand-icon-wrap" aria-hidden>
+            <Image
+              src="/favicon-32x32.png"
+              alt=""
+              width={28}
+              height={28}
+              className="brand-icon-light"
+              priority
+            />
+            <Image
+              src="/favicon-dark-32x32.png"
+              alt=""
+              width={28}
+              height={28}
+              className="brand-icon-dark"
+              priority
+            />
+          </span>
           <h1 className="m-0 text-sm sm:text-xl font-extrabold">{title}</h1>
         </Link>
 

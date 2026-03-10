@@ -305,6 +305,34 @@
   font-weight: 800;
 }
 
+.brand-icon-wrap {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-icon-light,
+.brand-icon-dark {
+  width: 28px;
+  height: 28px;
+}
+
+.brand-icon-dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .brand-icon-light {
+    display: none;
+  }
+
+  .brand-icon-dark {
+    display: inline-block;
+  }
+}
+
 .header-actions {
   display: flex;
   gap: 0.5rem;
