@@ -1,6 +1,8 @@
 import ReactMarkdown from 'react-markdown';
 import type { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
 
 interface MarkdownContentProps {
   content: string;
@@ -45,5 +47,15 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
     em: ({ children }) => <em className="italic">{children}</em>,
   };
 
-  return <article className="markdown-body"><ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>{content}</ReactMarkdown></article>;
+  return (
+    <article className="markdown-body">
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeRaw, rehypeSanitize]}
+        components={components}
+      >
+        {content}
+      </ReactMarkdown>
+    </article>
+  );
 }
