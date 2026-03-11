@@ -6,9 +6,10 @@ import rehypeSanitize from 'rehype-sanitize';
 
 interface MarkdownContentProps {
   content: string;
+  className?: string;
 }
 
-export default function MarkdownContent({ content }: MarkdownContentProps) {
+export default function MarkdownContent({ content, className }: MarkdownContentProps) {
   const LinkRenderer: Components['a'] = ({ href, children, ...props }) => {
     const isExternal = href &&
       (href.startsWith('http://') || href.startsWith('https://')) &&
@@ -48,7 +49,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
   };
 
   return (
-    <article className="markdown-body">
+    <article className={className ? `markdown-body ${className}` : 'markdown-body'}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw, rehypeSanitize]}

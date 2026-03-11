@@ -12,22 +12,22 @@ export default function StaticPageLayout({ content, showContactSection = false }
   return (
     <div className="page-shell">
       <Header />
-      <main className="app-container page-content">
-        <div className="surface-card p-5 sm:p-8">
-          <MarkdownContent content={content} />
+      <main className="app-container page-content static-page-container">
+        <div className="surface-card static-page-card">
+          <MarkdownContent content={content} className="legacy-static-markdown" />
 
           {showContactSection && (
-            <div className="mt-8 flex items-center justify-center gap-2">
-              <a href="https://www.clementino.me" target="_blank" rel="noopener noreferrer" className="icon-btn" aria-label="Website"><Globe className="h-4 w-4" /></a>
-              <a href="https://www.linkedin.com/in/vclementino" target="_blank" rel="noopener noreferrer" className="icon-btn" aria-label="LinkedIn"><Linkedin className="h-4 w-4" /></a>
-              <a href="https://www.twitter.com/vclementino" target="_blank" rel="noopener noreferrer" className="icon-btn" aria-label="Twitter"><Twitter className="h-4 w-4" /></a>
-              <a href="https://www.github.com/vagnerclementino" target="_blank" rel="noopener noreferrer" className="icon-btn" aria-label="GitHub"><Github className="h-4 w-4" /></a>
+            <div className="static-page-socials">
+              <a href="https://www.clementino.me" target="_blank" rel="noopener noreferrer" className="static-social-btn static-social-web" aria-label="Website"><Globe className="h-5 w-5" /></a>
+              <a href="https://www.linkedin.com/in/vclementino" target="_blank" rel="noopener noreferrer" className="static-social-btn static-social-linkedin" aria-label="LinkedIn"><Linkedin className="h-5 w-5" /></a>
+              <a href="https://www.twitter.com/vclementino" target="_blank" rel="noopener noreferrer" className="static-social-btn static-social-twitter" aria-label="Twitter"><Twitter className="h-5 w-5" /></a>
+              <a href="https://www.github.com/vagnerclementino" target="_blank" rel="noopener noreferrer" className="static-social-btn static-social-github" aria-label="GitHub"><Github className="h-5 w-5" /></a>
             </div>
           )}
 
-          <div className="mt-8 flex justify-center">
+          <div className="static-page-cta-row">
             <Link href="/" style={{ textDecoration: 'none' }}>
-              <Button variant="contained" size="large">
+              <Button variant="contained" size="large" className="static-page-cta">
                 Voltar para a Página Principal
               </Button>
             </Link>
