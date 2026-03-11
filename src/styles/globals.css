@@ -342,16 +342,24 @@
   padding: 0.85rem 0;
 }
 
-.markdown-body h1,
+.markdown-body h1 {
+  color: #0056b3;
+}
+
 .markdown-body h2,
-.markdown-body h3 {
-  color: hsl(var(--primary));
+.markdown-body h3,
+.markdown-body h4 {
+  color: hsl(var(--foreground));
 }
 
 .markdown-body p,
 .markdown-body li {
   color: hsl(var(--foreground));
   line-height: 1.6;
+}
+
+.markdown-body a {
+  color: #0056b3;
 }
 
 .scroll-top {

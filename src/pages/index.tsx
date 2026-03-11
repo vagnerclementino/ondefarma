@@ -13,6 +13,8 @@ const ScrollToTop = dynamic(() => import('@/components/atoms/ScrollToTop'), {
   ssr: false,
 });
 
+const FAVORITE_TOAST_DURATION_MS = 1800;
+
 interface HomeProps {
   initialPharmacies: Pharmacy[];
   initialStates: string[];
@@ -120,7 +122,7 @@ export default function Home({
 
   useEffect(() => {
     if (!snackbarOpen) return;
-    const t = setTimeout(() => setSnackbarOpen(false), 3000);
+    const t = setTimeout(() => setSnackbarOpen(false), FAVORITE_TOAST_DURATION_MS);
     return () => clearTimeout(t);
   }, [snackbarOpen]);
 

@@ -11,6 +11,8 @@ const ScrollToTop = dynamic(() => import('@/components/atoms/ScrollToTop'), {
   ssr: false,
 });
 
+const FAVORITE_TOAST_DURATION_MS = 1800;
+
 export default function Favorites() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -84,7 +86,7 @@ export default function Favorites() {
 
   useEffect(() => {
     if (!snackbarOpen) return;
-    const t = setTimeout(() => setSnackbarOpen(false), 3000);
+    const t = setTimeout(() => setSnackbarOpen(false), FAVORITE_TOAST_DURATION_MS);
     return () => clearTimeout(t);
   }, [snackbarOpen]);
 
