@@ -18,24 +18,14 @@ const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' })
     <header className="site-header">
       <div className="app-container site-header-inner">
         <Link href="/" className="brand-link" aria-label="Início">
-          <span className="brand-icon-wrap" aria-hidden>
-            <Image
-              src="/favicon-32x32.png"
-              alt=""
-              width={28}
-              height={28}
-              className="brand-icon-light"
-              priority
-            />
-            <Image
-              src="/favicon-dark-32x32.png"
-              alt=""
-              width={28}
-              height={28}
-              className="brand-icon-dark"
-              priority
-            />
-          </span>
+          <Image
+            src="/header-icon.png"
+            alt=""
+            width={128}
+            height={128}
+            className="brand-icon"
+            priority
+          />
           <h1 className="m-0 text-sm sm:text-xl font-extrabold">{title}</h1>
         </Link>
 

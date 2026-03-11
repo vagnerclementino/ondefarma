@@ -300,36 +300,26 @@
 .brand-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.15rem;
   text-decoration: none;
   font-weight: 800;
 }
 
-.brand-icon-wrap {
-  width: 28px;
-  height: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
-.brand-icon-light,
-.brand-icon-dark {
-  width: 28px;
-  height: 28px;
-}
-
-.brand-icon-dark {
-  display: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  .brand-icon-light {
-    display: none;
+@media (min-width: 640px) {
+  .brand-link {
+    gap: 0.25rem;
   }
 
-  .brand-icon-dark {
-    display: inline-block;
+  .brand-icon {
+    width: 48px;
+    height: 48px;
   }
 }
 

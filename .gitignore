@@ -143,3 +143,6 @@ cypress/screenshots
 cypress/downloads
 .vercel
 .env*.local
+
+# Icon source files (generated favicons are in public/)
+icon-3-removebg-preview.png
