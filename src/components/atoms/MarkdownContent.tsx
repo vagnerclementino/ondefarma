@@ -1,71 +1,17 @@
 import ReactMarkdown from 'react-markdown';
+import type { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import { styled } from '@mui/material/styles';
-
-const StyledMarkdown = styled(Box)(({ theme }) => ({
-  '& h1': {
-    ...theme.typography.h4,
-    color: theme.palette.primary.main,
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(2),
-  },
-  '& h2': {
-    ...theme.typography.h5,
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(2),
-  },
-  '& h3': {
-    ...theme.typography.h6,
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(1),
-  },
-  '& p': {
-    ...theme.typography.body1,
-    marginBottom: theme.spacing(2),
-  },
-  '& ul, & ol': {
-    paddingLeft: theme.spacing(4),
-    marginBottom: theme.spacing(2),
-  },
-  '& li': {
-    ...theme.typography.body1,
-    marginBottom: theme.spacing(1),
-  },
-  '& a': {
-    color: theme.palette.primary.main,
-    textDecoration: 'none',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-  },
-  '& strong': {
-    fontWeight: 600,
-  },
-  '& code': {
-    backgroundColor: theme.palette.grey[100],
-    padding: theme.spacing(0.5, 1),
-    borderRadius: theme.shape.borderRadius,
-    fontFamily: 'monospace',
-  },
-  '& pre': {
-    backgroundColor: theme.palette.grey[100],
-    padding: theme.spacing(2),
-    borderRadius: theme.shape.borderRadius,
-    overflow: 'auto',
-    marginBottom: theme.spacing(2),
-  },
-}));
+import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
 
 interface MarkdownContentProps {
   content: string;
+  className?: string;
 }
 
-export default function MarkdownContent({ content }: MarkdownContentProps) {
-  const LinkRenderer = ({ href, children, ...props }: any) => {
-    const isExternal = href && 
+export default function MarkdownContent({ content, className }: MarkdownContentProps) {
+  const LinkRenderer: Components['a'] = ({ href, children, ...props }) => {
+    const isExternal = href &&
       (href.startsWith('http://') || href.startsWith('https://')) &&
       (typeof window === 'undefined' || !href.startsWith(window.location.origin)) &&
       !href.startsWith('mailto:') &&
@@ -82,14 +28,35 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
     return <a href={href} {...props}>{children}</a>;
   };
 
+  const components: Components = {
+    h1: ({ children }) => <h1 className="text-3xl font-extrabold leading-tight mb-5">{children}</h1>,
+    h2: ({ children }) => <h2 className="text-2xl font-bold leading-tight mt-8 mb-4">{children}</h2>,
+    h3: ({ children }) => <h3 className="text-xl font-bold leading-tight mt-6 mb-3">{children}</h3>,
+    h4: ({ children }) => <h4 className="text-lg font-semibold leading-tight mt-5 mb-2">{children}</h4>,
+    p: ({ children }) => <p className="text-base leading-7 mb-4">{children}</p>,
+    ul: ({ children }) => <ul className="list-disc pl-6 mb-4 space-y-1">{children}</ul>,
+    ol: ({ children }) => <ol className="list-decimal pl-6 mb-4 space-y-1">{children}</ol>,
+    li: ({ children }) => <li className="leading-7">{children}</li>,
+    blockquote: ({ children }) => (
+      <blockquote className="border-l-4 border-[#0b4aa8]/30 pl-4 italic my-5 text-muted-foreground">
+        {children}
+      </blockquote>
+    ),
+    hr: () => <hr className="my-8 border-border" />,
+    a: LinkRenderer,
+    strong: ({ children }) => <strong className="font-extrabold">{children}</strong>,
+    em: ({ children }) => <em className="italic">{children}</em>,
+  };
+
   return (
-    <StyledMarkdown>
-      <ReactMarkdown 
+    <article className={className ? `markdown-body ${className}` : 'markdown-body'}>
+      <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        components={{ a: LinkRenderer }}
+        rehypePlugins={[rehypeRaw, rehypeSanitize]}
+        components={components}
       >
         {content}
       </ReactMarkdown>
-    </StyledMarkdown>
+    </article>
   );
 }

@@ -13,7 +13,7 @@ describe('Filters', () => {
   it('should filter by neighborhood', () => {
     cy.get('[data-testid="neighborhood-select"]').should('not.be.disabled');
     cy.get('[data-testid="neighborhood-select"]').click();
-    cy.get('li[role="option"]').not(':contains("Todos os bairros")').first().click();
+    cy.get('[role="option"]').not(':contains("Todos os bairros")').first().click();
     
     cy.url().should('include', 'neighborhood=');
     cy.get('[data-testid="pharmacy-card"]', { timeout: 10000 }).should('exist');
@@ -22,7 +22,7 @@ describe('Filters', () => {
   it('should clear neighborhood filter', () => {
     cy.get('[data-testid="neighborhood-select"]').should('not.be.disabled');
     cy.get('[data-testid="neighborhood-select"]').click();
-    cy.get('li[role="option"]').not(':contains("Todos os bairros")').first().click();
+    cy.get('[role="option"]').not(':contains("Todos os bairros")').first().click();
     
     cy.get('[data-testid="clear-neighborhood"]', { timeout: 5000 }).should('exist').click();
     cy.url().should('not.include', 'neighborhood=');
@@ -31,7 +31,7 @@ describe('Filters', () => {
   it('should display pharmacies after applying filters', () => {
     cy.get('[data-testid="neighborhood-select"]').should('not.be.disabled');
     cy.get('[data-testid="neighborhood-select"]').click();
-    cy.get('li[role="option"]').not(':contains("Todos os bairros")').first().click();
+    cy.get('[role="option"]').not(':contains("Todos os bairros")').first().click();
     
     cy.get('[data-testid="pharmacy-card"]', { timeout: 10000 }).should('exist');
   });

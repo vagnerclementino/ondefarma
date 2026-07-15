@@ -3,10 +3,10 @@ import handler from '@/pages/api/pharmacies/by-cnpj';
 
 // Mock do módulo pharmacyData
 jest.mock('@/lib/pharmacyData', () => ({
-  readPharmaciesFromCSV: jest.fn(),
+  getPharmaciesByCnpjs: jest.fn(),
 }));
 
-import { readPharmaciesFromCSV } from '@/lib/pharmacyData';
+import { getPharmaciesByCnpjs } from '@/lib/pharmacyData';
 
 describe('/api/pharmacies/by-cnpj', () => {
   beforeEach(() => {
@@ -94,7 +94,7 @@ describe('/api/pharmacies/by-cnpj', () => {
       },
     ];
 
-    (readPharmaciesFromCSV as jest.Mock).mockResolvedValue(mockPharmacies);
+    (getPharmaciesByCnpjs as jest.Mock).mockResolvedValue(mockPharmacies.slice(0, 2));
 
     const { req, res } = createMocks({
       method: 'POST',
@@ -111,7 +111,7 @@ describe('/api/pharmacies/by-cnpj', () => {
   });
 
   it('deve retornar 500 em caso de erro', async () => {
-    (readPharmaciesFromCSV as jest.Mock).mockRejectedValue(
+    (getPharmaciesByCnpjs as jest.Mock).mockRejectedValue(
       new Error('Database error')
     );
 

@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import Fab from '@mui/material/Fab';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import Zoom from '@mui/material/Zoom';
-import useScrollTrigger from '@mui/material/useScrollTrigger';
+import React, { useEffect, useState } from 'react';
+import { ChevronUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export interface ScrollToTopProps {
   threshold?: number;
@@ -11,39 +9,28 @@ export interface ScrollToTopProps {
 const ScrollToTop: React.FC<ScrollToTopProps> = ({ threshold = 100 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
-  const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: threshold,
-  });
-
   useEffect(() => {
-    setIsVisible(trigger);
-  }, [trigger]);
+    const handleScroll = () => setIsVisible(window.scrollY > threshold);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [threshold]);
 
-  const handleClick = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
+  if (!isVisible) {
+    return null;
+  }
 
   return (
-    <Zoom in={isVisible}>
-      <Fab
-        onClick={handleClick}
-        color="primary"
-        size="medium"
+    <div className="scroll-top">
+      <Button
+        type="button"
+        size="icon"
         aria-label="voltar ao topo"
-        sx={{
-          position: 'fixed',
-          bottom: { xs: 16, sm: 24 },
-          right: { xs: 16, sm: 24 },
-          zIndex: 1000,
-        }}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       >
-        <KeyboardArrowUpIcon />
-      </Fab>
-    </Zoom>
+        <ChevronUp className="h-4 w-4" />
+      </Button>
+    </div>
   );
 };
 

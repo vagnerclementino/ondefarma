@@ -1,16 +1,10 @@
 import React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocalPharmacyIcon from '@mui/icons-material/LocalPharmacy';
-import HomeIcon from '@mui/icons-material/Home';
-import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Button } from '@/components/atoms';
+import { Heart, Home } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 export interface HeaderProps {
   title?: string;
@@ -18,138 +12,54 @@ export interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ title = 'Ache uma Farmácia Popular' }) => {
   const router = useRouter();
-  
-  const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 0,
-  });
-  
   const isActive = (pathname: string) => router?.pathname === pathname;
 
   return (
-    <AppBar
-      position="sticky"
-      elevation={trigger ? 4 : 2}
-      sx={{
-        transition: 'box-shadow 0.3s ease-in-out',
-      }}
-    >
-      <Container maxWidth="lg">
-        <Toolbar
-          disableGutters
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            py: 1,
-          }}
-        >
-          <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit' }}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-                cursor: 'pointer',
-                '&:hover': {
-                  opacity: 0.8,
-                },
-              }}
-            >
-              <LocalPharmacyIcon
-                sx={{
-                  fontSize: { xs: 28, sm: 32 },
-                  color: 'white',
-                }}
-              />
-              <Typography
-                variant="h6"
-                component="h1"
-                sx={{
-                  fontWeight: 600,
-                  fontSize: { xs: '0.9rem', sm: '1.25rem' },
-                  color: 'white',
-                }}
-              >
-                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
-                  {title}
-                </Box>
-                <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
-                  Farmácia Popular
-                </Box>
-              </Typography>
-            </Box>
-          </Link>
+    <header className="site-header">
+      <div className="app-container site-header-inner">
+        <Link href="/" className="brand-link" aria-label="Início">
+          <Image
+            src="/header-icon.png"
+            alt=""
+            width={128}
+            height={128}
+            className="brand-icon"
+            priority
+          />
+          <h1 className="m-0 text-sm sm:text-xl font-extrabold">{title}</h1>
+        </Link>
 
-          <Box sx={{ display: 'flex', gap: { xs: 0.5, sm: 1 } }}>
-            <Link href="/" passHref style={{ textDecoration: 'none' }}>
-              <Button
-                variant={isActive('/') ? 'contained' : 'outlined'}
-                aria-label="Início"
-                sx={{
-                  color: isActive('/') ? 'primary.main' : 'white',
-                  backgroundColor: isActive('/') ? 'white' : 'transparent',
-                  borderColor: 'white',
-                  '&:hover': {
-                    borderColor: 'white',
-                    backgroundColor: isActive('/') ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.1)',
-                  },
-                  '&:active': {
-                    backgroundColor: isActive('/') ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.2)',
-                  },
-                  fontSize: { xs: '0.75rem', sm: '0.875rem' },
-                  px: { xs: 1, sm: 2 },
-                  py: { xs: 0.75, sm: 1 },
-                  minWidth: { xs: '40px', sm: 'auto' },
-                  minHeight: { xs: '36px', sm: '40px' },
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: { xs: 0, sm: 1 },
-                }}
-              >
-                <HomeIcon sx={{ fontSize: { xs: '1.25rem', sm: '1.25rem' } }} />
-                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
-                  Início
-                </Box>
-              </Button>
+        <nav className="header-actions" aria-label="Navegação principal">
+          <Button
+            asChild
+            variant="ghost"
+            className={cn(
+              'border border-[#0b4aa8]/20 bg-white text-[#0b4aa8] shadow-sm hover:bg-[#e9f3ff] hover:text-[#0b4aa8]',
+              isActive('/') && 'bg-[#0b4aa8] text-white hover:bg-[#0b4aa8] hover:text-white'
+            )}
+          >
+            <Link href="/" aria-label="Início">
+              <Home className="h-4 w-4" />
+              <span className="hidden sm:inline">Início</span>
             </Link>
-            <Link href="/favorites" passHref style={{ textDecoration: 'none' }}>
-              <Button
-                variant={isActive('/favorites') ? 'contained' : 'outlined'}
-                aria-label="Favoritos"
-                sx={{
-                  color: isActive('/favorites') ? 'primary.main' : 'white',
-                  backgroundColor: isActive('/favorites') ? 'white' : 'transparent',
-                  borderColor: 'white',
-                  '&:hover': {
-                    borderColor: 'white',
-                    backgroundColor: isActive('/favorites') ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.1)',
-                  },
-                  '&:active': {
-                    backgroundColor: isActive('/favorites') ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.2)',
-                  },
-                  fontSize: { xs: '0.75rem', sm: '0.875rem' },
-                  px: { xs: 1, sm: 2 },
-                  py: { xs: 0.75, sm: 1 },
-                  minWidth: { xs: '40px', sm: 'auto' },
-                  minHeight: { xs: '36px', sm: '40px' },
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: { xs: 0, sm: 1 },
-                }}
-              >
-                <FavoriteIcon sx={{ fontSize: { xs: '1.25rem', sm: '1.25rem' } }} />
-                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
-                  Favoritos
-                </Box>
-              </Button>
+          </Button>
+
+          <Button
+            asChild
+            variant="ghost"
+            className={cn(
+              'border border-[#0b4aa8]/20 bg-white text-[#0b4aa8] shadow-sm hover:bg-[#e9f3ff] hover:text-[#0b4aa8]',
+              isActive('/favorites') && 'bg-[#0b4aa8] text-white hover:bg-[#0b4aa8] hover:text-white'
+            )}
+          >
+            <Link href="/favorites" aria-label="Favoritos">
+              <Heart className="h-4 w-4" />
+              <span className="hidden sm:inline">Favoritos</span>
             </Link>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+          </Button>
+        </nav>
+      </div>
+    </header>
   );
 };
 

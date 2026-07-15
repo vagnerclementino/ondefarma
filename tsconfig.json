@@ -23,6 +23,11 @@
       }
     ],
     "baseUrl": ".",
+    "types": [
+      "node",
+      "jest",
+      "@testing-library/jest-dom"
+    ],
     "paths": {
       "@/*": [
         "./src/*"
@@ -38,6 +43,8 @@
     "jest.config.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "cypress",
+    "cypress.config.ts"
   ]
 }

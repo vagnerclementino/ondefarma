@@ -5,18 +5,23 @@ export default function Document() {
     <Html lang="pt-BR">
       <Head>
         <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+          media="(prefers-color-scheme: light)"
         />
         <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-dark-32x32.png"
+          media="(prefers-color-scheme: dark)"
         />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
-          rel="stylesheet"
-        />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="apple-mobile-web-app-title" content="Ache uma Farmacia Popular" />
       </Head>
       <body>
         <Main />

@@ -1,11 +1,12 @@
 import React from 'react';
-import MuiIconButton, { IconButtonProps as MuiIconButtonProps } from '@mui/material/IconButton';
+import { Button } from '@/components/ui/button';
 
-export interface IconButtonProps extends MuiIconButtonProps {
+export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  asChild?: boolean;
 }
 
-const IconButton: React.FC<IconButtonProps> = (props) => {
-  return <MuiIconButton {...props} />;
+const IconButton: React.FC<IconButtonProps> = ({ className, asChild, ...props }) => {
+  return <Button {...props} asChild={asChild} variant="ghost" size="icon" className={className} />;
 };
 
 export default IconButton;

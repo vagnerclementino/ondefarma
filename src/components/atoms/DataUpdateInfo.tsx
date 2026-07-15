@@ -1,5 +1,4 @@
 import React from 'react';
-import Typography from '@mui/material/Typography';
 
 const DataUpdateInfo: React.FC = () => {
   const dataUpdateDate = process.env.NEXT_PUBLIC_DATA_UPDATE_DATE;
@@ -17,20 +16,7 @@ const DataUpdateInfo: React.FC = () => {
     ? `Dados atualizados em: ${formatDateToBrazilian(dataUpdateDate)}`
     : 'Data de atualização não disponível';
 
-  return (
-    <Typography
-      variant="caption"
-      color="text.secondary"
-      sx={{
-        display: 'block',
-        textAlign: 'center',
-        fontSize: { xs: '0.75rem', sm: '0.8125rem' },
-        mt: 1,
-      }}
-    >
-      {displayText}
-    </Typography>
-  );
+  return <p className="text-xs text-muted-foreground m-0">{displayText}</p>;
 };
 
 export default DataUpdateInfo;

@@ -1,13 +1,7 @@
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Alert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
-import Fade from '@mui/material/Fade';
-import Grow from '@mui/material/Grow';
 import Link from 'next/link';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Pharmacy } from '@/types/pharmacy';
 import { Header, Footer, PharmacyList } from '@/components/organisms';
 import { Button } from '@/components/atoms';
@@ -17,18 +11,20 @@ const ScrollToTop = dynamic(() => import('@/components/atoms/ScrollToTop'), {
   ssr: false,
 });
 
+const FAVORITE_TOAST_DURATION_MS = 1800;
+
 export default function Favorites() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [pharmacies, setPharmacies] = useState<Pharmacy[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   const { favorites, toggleFavorite, error: favoritesError } = useFavorites();
-  
+
   useEffect(() => {
     const controller = new AbortController();
-    
+
     const fetchFavoritePharmacies = async () => {
       if (favorites.length === 0) {
         setPharmacies([]);
@@ -52,25 +48,18 @@ export default function Favorites() {
         if (!response.ok) {
           throw new Error('Erro ao carregar farmácias');
         }
-        
+
         const data: unknown = await response.json();
-        
-        const isValidApiResponse = (data: unknown): data is { data: Pharmacy[] } => {
-          return (
-            typeof data === 'object' &&
-            data !== null &&
-            'data' in data &&
-            Array.isArray((data as any).data)
-          );
+
+        const isValidApiResponse = (value: unknown): value is { data: Pharmacy[] } => {
+          return typeof value === 'object' && value !== null && 'data' in value && Array.isArray((value as any).data);
         };
-        
+
         if (!isValidApiResponse(data)) {
           throw new Error('Resposta da API em formato inválido');
         }
-        
-        const favoritePharmacies = data.data;
-        
-        setPharmacies(favoritePharmacies);
+
+        setPharmacies(data.data);
       } catch (err) {
         if (err instanceof Error && err.name === 'AbortError') return;
         setError('Erro ao carregar farmácias favoritas. Por favor, tente novamente.');
@@ -86,134 +75,69 @@ export default function Favorites() {
   const handleFavoriteToggle = (cnpj: string) => {
     const isCurrentlyFavorite = favorites.includes(cnpj);
     toggleFavorite(cnpj);
-    
-    const message = isCurrentlyFavorite 
-      ? 'Farmácia removida dos favoritos'
-      : 'Farmácia adicionada aos favoritos';
-    
-    setSnackbarMessage(message);
+
+    setSnackbarMessage(
+      isCurrentlyFavorite
+        ? 'Farmácia removida dos favoritos'
+        : 'Farmácia adicionada aos favoritos'
+    );
     setSnackbarOpen(true);
   };
 
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-  };
+  useEffect(() => {
+    if (!snackbarOpen) return;
+    const t = setTimeout(() => setSnackbarOpen(false), FAVORITE_TOAST_DURATION_MS);
+    return () => clearTimeout(t);
+  }, [snackbarOpen]);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className="page-shell">
       <Header />
-      <Container 
-        maxWidth="lg" 
-        sx={{ 
-          flex: 1,
-          px: { xs: 2, sm: 3, md: 4 },
-        }}
-      >
-        <Fade in timeout={500}>
-          <Box sx={{ 
-            py: { xs: 2, sm: 3, md: 4 },
-          }}>
-            <Typography 
-              variant="h4" 
-              component="h1" 
-              gutterBottom 
-              sx={{ 
-                mb: { xs: 2, sm: 3 },
-                fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' },
-              }}
-            >
-              Minhas Farmácias Favoritas
-            </Typography>
+      <main className="app-container page-content">
+        <h1 className="title-h1">Minhas Farmácias Favoritas</h1>
 
-            {error && (
-              <Fade in>
-                <Alert 
-                  severity="error" 
-                  sx={{ mb: { xs: 2, sm: 3 } }}
-                >
-                  {error}
-                </Alert>
-              </Fade>
-            )}
-            
-            {favoritesError && (
-              <Fade in>
-                <Alert severity="warning" sx={{ mb: { xs: 2, sm: 3 } }}>
-                  {favoritesError}
-                </Alert>
-              </Fade>
-            )}
+        {error && (
+          <Alert variant="destructive" className="mb-4">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
-            {!isLoading && pharmacies.length === 0 && (
-              <Grow in timeout={600}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    minHeight: { xs: '300px', sm: '400px' },
-                    textAlign: 'center',
-                    p: { xs: 2, sm: 3, md: 4 },
-                  }}
-                >
-                  <Typography 
-                    variant="h5" 
-                    color="text.secondary" 
-                    gutterBottom
-                    sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }}
-                  >
-                    Nenhuma farmácia favorita
-                  </Typography>
-                  <Typography 
-                    variant="body1" 
-                    color="text.secondary" 
-                    sx={{ 
-                      mb: { xs: 2, sm: 3 },
-                      fontSize: { xs: '0.875rem', sm: '1rem' },
-                    }}
-                  >
-                    Adicione farmácias aos favoritos para acessá-las rapidamente aqui.
-                  </Typography>
-                  <Link href="/" passHref style={{ textDecoration: 'none' }}>
-                    <Button 
-                      variant="contained" 
-                      color="primary" 
-                      size="large"
-                      sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}
-                    >
-                      Buscar Farmácias
-                    </Button>
-                  </Link>
-                </Box>
-              </Grow>
-            )}
+        {favoritesError && (
+          <Alert className="mb-4 border-yellow-300 bg-yellow-50 text-yellow-800">
+            <AlertDescription>{favoritesError}</AlertDescription>
+          </Alert>
+        )}
 
-            {(isLoading || pharmacies.length > 0) && (
-              <PharmacyList
-                pharmacies={pharmacies}
-                isLoading={isLoading}
-                favoritePharmacies={favorites}
-                onFavoriteToggle={handleFavoriteToggle}
-              />
-            )}
-          </Box>
-        </Fade>
-      </Container>
+        {!isLoading && pharmacies.length === 0 && (
+          <section className="surface-card p-8 text-center">
+            <h2 className="m-0 mb-2 text-xl font-semibold text-muted-foreground">Nenhuma farmácia favorita</h2>
+            <p className="helper-text mb-4">Adicione farmácias aos favoritos para acessá-las rapidamente aqui.</p>
+            <Link href="/" style={{ textDecoration: 'none' }}>
+              <Button variant="contained" size="large">Buscar Farmácias</Button>
+            </Link>
+          </section>
+        )}
 
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        TransitionComponent={Fade}
-      >
-        <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+        {(isLoading || pharmacies.length > 0) && (
+          <PharmacyList
+            pharmacies={pharmacies}
+            isLoading={isLoading}
+            favoritePharmacies={favorites}
+            onFavoriteToggle={handleFavoriteToggle}
+          />
+        )}
+      </main>
+
+      {snackbarOpen && (
+        <div className="fixed right-4 top-4 z-50 w-[min(92vw,420px)]" aria-live="polite">
+          <Alert className="favorite-toast">
+            <AlertDescription>{snackbarMessage}</AlertDescription>
+          </Alert>
+        </div>
+      )}
+
       <Footer />
       <ScrollToTop />
-    </Box>
+    </div>
   );
 }

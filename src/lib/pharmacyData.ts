@@ -9,93 +9,160 @@ interface PharmacyFilters {
   neighborhood?: string;
 }
 
-export function readPharmaciesFromCSV(filters?: PharmacyFilters): Promise<Pharmacy[]> {
-  return new Promise((resolve, reject) => {
-    const results: Pharmacy[] = [];
+interface PharmacyCache {
+  all: Pharmacy[];
+  states: string[];
+  citiesByState: Map<string, string[]>;
+  neighborhoodsByCityState: Map<string, string[]>;
+  byCnpj: Map<string, Pharmacy>;
+}
+
+let inMemoryCache: PharmacyCache | null = null;
+let loadingPromise: Promise<PharmacyCache> | null = null;
+
+function normalize(value?: string): string | undefined {
+  return value?.toUpperCase();
+}
+
+function cityStateKey(city: string, state: string): string {
+  return `${city.toUpperCase()}::${state.toUpperCase()}`;
+}
+
+async function loadCache(): Promise<PharmacyCache> {
+  if (inMemoryCache) {
+    return inMemoryCache;
+  }
+
+  if (loadingPromise) {
+    return loadingPromise;
+  }
+
+  loadingPromise = new Promise((resolve, reject) => {
+    const rows: Pharmacy[] = [];
     const filePath = path.join(process.cwd(), 'src', 'data', 'pharmacies.csv');
 
     fs.createReadStream(filePath)
       .pipe(csv({
         mapHeaders: ({ header }) => {
           const headerMap: { [key: string]: string } = {
-            'CNPJ': 'cnpj',
-            'Farmácia': 'name',
-            'Endereço': 'address',
-            'Bairro': 'neighborhood'
+            CNPJ: 'cnpj',
+            Farmácia: 'name',
+            Endereço: 'address',
+            Bairro: 'neighborhood',
           };
           return headerMap[header] || header.toLowerCase();
-        }
+        },
       }))
       .on('data', (data: Pharmacy) => {
-        data.city = 'BELO HORIZONTE';
-        data.state = 'MG';
-
-        if (filters) {
-          let matches = true;
-          
-          if (filters.state && data.state !== filters.state.toUpperCase()) {
-            matches = false;
-          }
-          
-          if (filters.city && data.city && data.city.toUpperCase() !== filters.city.toUpperCase()) {
-            matches = false;
-          }
-          
-          if (filters.neighborhood && data.neighborhood?.toUpperCase() !== filters.neighborhood.toUpperCase()) {
-            matches = false;
-          }
-
-          if (matches) {
-            results.push(data);
-          }
-        } else {
-          results.push(data);
-        }
+        rows.push({
+          ...data,
+          city: 'BELO HORIZONTE',
+          state: 'MG',
+        });
       })
       .on('end', () => {
-        resolve(results);
+        const statesSet = new Set<string>();
+        const citiesByStateSet = new Map<string, Set<string>>();
+        const neighborhoodsByCityStateSet = new Map<string, Set<string>>();
+        const byCnpj = new Map<string, Pharmacy>();
+
+        rows.forEach((pharmacy) => {
+          if (pharmacy.state) {
+            statesSet.add(pharmacy.state);
+
+            if (!citiesByStateSet.has(pharmacy.state)) {
+              citiesByStateSet.set(pharmacy.state, new Set());
+            }
+
+            if (pharmacy.city) {
+              citiesByStateSet.get(pharmacy.state)?.add(pharmacy.city);
+            }
+          }
+
+          if (pharmacy.city && pharmacy.state && pharmacy.neighborhood) {
+            const key = cityStateKey(pharmacy.city, pharmacy.state);
+            if (!neighborhoodsByCityStateSet.has(key)) {
+              neighborhoodsByCityStateSet.set(key, new Set());
+            }
+            neighborhoodsByCityStateSet.get(key)?.add(pharmacy.neighborhood);
+          }
+
+          byCnpj.set(pharmacy.cnpj, pharmacy);
+        });
+
+        const citiesByState = new Map<string, string[]>();
+        citiesByStateSet.forEach((value, key) => {
+          citiesByState.set(key, Array.from(value).sort());
+        });
+
+        const neighborhoodsByCityState = new Map<string, string[]>();
+        neighborhoodsByCityStateSet.forEach((value, key) => {
+          neighborhoodsByCityState.set(key, Array.from(value).sort());
+        });
+
+        inMemoryCache = {
+          all: rows,
+          states: Array.from(statesSet).sort(),
+          citiesByState,
+          neighborhoodsByCityState,
+          byCnpj,
+        };
+
+        resolve(inMemoryCache);
       })
       .on('error', (error) => {
         reject(error);
       });
   });
+
+  try {
+    return await loadingPromise;
+  } finally {
+    loadingPromise = null;
+  }
+}
+
+export async function readPharmaciesFromCSV(filters?: PharmacyFilters): Promise<Pharmacy[]> {
+  const cache = await loadCache();
+
+  if (!filters || (!filters.state && !filters.city && !filters.neighborhood)) {
+    return cache.all;
+  }
+
+  const state = normalize(filters.state);
+  const city = normalize(filters.city);
+  const neighborhood = normalize(filters.neighborhood);
+
+  return cache.all.filter((pharmacy) => {
+    if (state && normalize(pharmacy.state) !== state) return false;
+    if (city && normalize(pharmacy.city) !== city) return false;
+    if (neighborhood && normalize(pharmacy.neighborhood) !== neighborhood) return false;
+    return true;
+  });
+}
+
+export async function getPharmaciesByCnpjs(cnpjs: string[]): Promise<Pharmacy[]> {
+  if (cnpjs.length === 0) {
+    return [];
+  }
+
+  const cache = await loadCache();
+  return cnpjs
+    .map((cnpj) => cache.byCnpj.get(cnpj))
+    .filter((pharmacy): pharmacy is Pharmacy => Boolean(pharmacy));
 }
 
 export async function getStates(): Promise<string[]> {
-  const pharmacies = await readPharmaciesFromCSV();
-  const states = new Set<string>();
-  
-  pharmacies.forEach(pharmacy => {
-    if (pharmacy.state) {
-      states.add(pharmacy.state);
-    }
-  });
-  
-  return Array.from(states).sort();
+  const cache = await loadCache();
+  return cache.states;
 }
 
 export async function getCities(state: string): Promise<string[]> {
-  const pharmacies = await readPharmaciesFromCSV({ state });
-  const cities = new Set<string>();
-  
-  pharmacies.forEach(pharmacy => {
-    if (pharmacy.city) {
-      cities.add(pharmacy.city);
-    }
-  });
-  
-  return Array.from(cities).sort();
+  const cache = await loadCache();
+  return cache.citiesByState.get(state.toUpperCase()) || [];
 }
 
 export async function getNeighborhoods(city: string, state: string): Promise<string[]> {
-  const pharmacies = await readPharmaciesFromCSV({ city, state });
-  const neighborhoods = new Set<string>();
-  
-  pharmacies.forEach(pharmacy => {
-    if (pharmacy.neighborhood) {
-      neighborhoods.add(pharmacy.neighborhood);
-    }
-  });
-  
-  return Array.from(neighborhoods).sort();
+  const cache = await loadCache();
+  return cache.neighborhoodsByCityState.get(cityStateKey(city.toUpperCase(), state.toUpperCase())) || [];
 }

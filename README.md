@@ -110,7 +110,7 @@ achefarmaciapopular/
 ### Arquitetura
 
 - **Frontend**: Next.js 15.1.3 com React 18.3 e TypeScript 5.7
-- **UI Library**: Material-UI v6 (MUI) com tema customizado
+- **UI Library**: Tailwind CSS + shadcn/ui com componentes Radix UI
 - **State Management**: React hooks (useState, useEffect) + SWR para cache
 - **Data Fetching**: SWR (stale-while-revalidate) para cache automático
 - **Storage**: localStorage para persistência de favoritos
@@ -147,6 +147,33 @@ import { Header } from '@/components/organisms';
 
 Todos os imports utilizam o prefixo `@/` que aponta para o diretório `src/`.
 
+## 🎯 Favicons e Ícones
+
+O projeto possui suporte a temas claro e escuro do navegador para os favicons, utilizando a media query `prefers-color-scheme`.
+
+### Estrutura de Ícones
+
+Todos os ícones são gerados a partir de uma única fonte: `icon-3-removebg-preview.png`.
+
+```
+public/
+├── favicon.ico              # Ícone padrão (32x32)
+├── favicon-16x16.png        # Favicon 16x16
+├── favicon-32x32.png        # Favicon 32x32 (tema claro)
+├── favicon-dark-32x32.png   # Favicon 32x32 (tema escuro)
+├── favicon-128x128.png      # Favicon 128x128
+├── apple-touch-icon.png     # Apple Touch Icon (180x180)
+├── header-icon.png          # Ícone do cabeçalho (128x128)
+├── icons/
+│   ├── icon-192x192.png     # PWA icon
+│   └── icon-512x512.png     # PWA icon
+└── web-app-manifest-*.png   # Ícones do manifest
+```
+
+### Configuração
+
+Os favicons são configurados em `src/pages/_document.tsx` (Pages Router) com suporte a `prefers-color-scheme` para alternar entre versões clara e escura automaticamente.
+
 ## 🛠️ Tecnologias Utilizadas
 
 ### Core
@@ -155,8 +182,9 @@ Todos os imports utilizam o prefixo `@/` que aponta para o diretório `src/`.
 - **TypeScript 5.7.2** - Superset JavaScript com tipagem estática
 
 ### UI & Styling
-- **Material-UI v6** (@mui/material, @mui/icons-material) - Sistema de design
-- **Emotion** (@emotion/react, @emotion/styled) - CSS-in-JS
+- **Tailwind CSS** - Framework CSS utility-first
+- **shadcn/ui** - Componentes acessíveis baseados em Radix UI
+- **Lucide React** - Biblioteca de ícones
 
 ### Data & State
 - **SWR 2.3.7** - Hook para data fetching com cache
@@ -240,10 +268,11 @@ Os workflows estão em `.github/workflows/`.
 
 ## 📝 Decisões Técnicas
 
-### Por que Material-UI?
-- Sistema de design maduro e bem documentado
-- Componentes acessíveis e responsivos out-of-the-box
-- Tema customizável e consistente
+### Por que Tailwind CSS + shadcn/ui?
+- Componentes acessíveis baseados em Radix UI
+- Estilização utility-first com Tailwind CSS para desenvolvimento rápido
+- Componentes customizáveis e copiáveis (não dependência de pacote)
+- Bundle menor comparado a soluções CSS-in-JS
 - Excelente suporte a TypeScript
 
 ### Por que SWR?
@@ -280,11 +309,18 @@ O projeto utiliza Husky para garantir qualidade do código:
   - Garante que código quebrado não seja enviado ao repositório
   - Mantém a branch principal sempre estável
 
-## 🚀 Migração Recente
+## 🚀 Migrações Recentes
 
-O projeto foi recentemente migrado para uma estrutura mais moderna:
+### Branch `feat/migrate-design-system`
 
-### ✅ **Atualizações Realizadas**
+- **Design System**: Migração de Material-UI (MUI) para Tailwind CSS + shadcn/ui
+- **Favicons**: Novo sistema de ícones com suporte a temas claro/escuro do navegador
+- **Header**: Ícone do cabeçalho atualizado com dimensionamento responsivo
+- **Ícones**: Todos os favicons gerados a partir de fonte única (`icon-3-removebg-preview.png`)
+- **PWA**: Manifest e ícones atualizados para todas as resoluções necessárias
+
+### Branch anterior
+
 - **Next.js**: 13.0.0 → 15.1.3 (última versão estável)
 - **React**: 18.0.0 → 18.3.1
 - **TypeScript**: 5.2.2 → 5.7.2
@@ -304,7 +340,7 @@ Para detalhes completos da migração, veja [MIGRATION_SUMMARY.md](MIGRATION_SUM
 
 ## 📸 Demo
 
-![The landing page](frontpage.png)
+![Página principal do Ache uma Farmácia Popular](frontpage.png)
 
 ## 🗺️ Roadmap - Próximas Features (Phase 2)
 
